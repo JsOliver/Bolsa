@@ -1,0 +1,1 @@
+<a href="<?php echo base_url('painel'); ?>">Acessar Painel</a>

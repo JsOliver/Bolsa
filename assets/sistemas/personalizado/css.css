@@ -1,0 +1,336 @@
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
+}
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+}
+html,body{
+    overflow-x: hidden!important;
+}
+    /* Area do Topo*/
+
+.top-bar__logo{
+    width: 110px!important;
+    padding: 12px!important;
+}
+.top-bar-container{
+    background: #ee7c16!important;
+}
+
+.my-3 h3,h4,h5{
+    color: #990000 !important;
+
+}
+
+
+
+.productCaption h4{
+    background: #990000;
+    color: white!important;
+    text-align: center;
+    padding: 8px;
+
+}
+
+img{
+    /*object-fit: cover;*/
+    object-position: center;
+}
+.productCaption{
+    background: #ffffff;
+    border-left: 1px solid #bfbfbf;
+    border-right: 1px solid #bfbfbf;
+    border-bottom: 1px solid #bfbfbf;
+    height: 217px;
+}
+
+.natureza_min{
+    position: absolute;
+    background: #dc3545;
+    padding: 2px 5px 2px 5px;
+    margin: 5px;
+    color: white;
+    text-transform: uppercase;
+
+}
+.tipo_min{
+    background: #619157;
+    text-transform: uppercase;
+    padding: 2px 5px 2px 5px;
+    margin: 5px;
+    color: white;
+    float: right;
+    right: 5px;
+}
+.situacao{
+    text-transform: uppercase;
+    background: gray;
+    float: left;
+    padding: 4px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+.topBar ul li a{
+    color: white!important;
+}
+.search-camp{
+    border: none;
+    float: left;
+    width: 50%;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sujestoes-search{
+    display: none;
+}
+
+
+.search-form{
+    border: none;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #ffa700;
+    color: white;
+}
+
+    #serchtyping{
+        display: none;
+    }
+    #serchtyping{
+        position: absolute;
+        width: 42.6%;
+        background: rgba(31, 31, 31, 0.67);
+
+        z-index: 10000!important;
+    }
+    #serchtyping ul{
+
+        padding: 0!important;
+
+    }
+    #serchtyping ul li{
+        list-style: none!important;
+        float: left;
+        padding: 0!important;
+        width: 100%;
+    }
+    #serchtyping ul li a:hover{
+        cursor: pointer;
+        color: white;
+        background: rgba(11, 11, 11, 0.51);
+
+    }
+    #serchtyping ul li a{
+        list-style: none!important;
+        float: left;
+        border-left: 1px solid rgba(0, 0, 0, 0.03);
+        border-right: 1px solid rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+
+        width: 100%;
+        padding: 5px!important;
+        color: #212121;
+        background: white;
+        text-decoration: none!important;
+
+
+    }
+
+
+    #serchtypingmobi{
+        display: none;
+    }
+    #serchtypingmobi{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        background: rgba(31, 31, 31, 0.67);
+
+        margin-top: 3px;
+        z-index: 10000!important;
+    }
+    #serchtypingmobi ul{
+
+        padding: 0!important;
+
+    }
+    #serchtypingmobi ul li{
+        list-style: none!important;
+        float: left;
+        padding: 0!important;
+        width: 100%;
+    }
+    #serchtypingmobi ul li a:hover{
+        cursor: pointer;
+        color: white;
+        background: rgba(11, 11, 11, 0.51);
+
+    }
+    #serchtypingmobi ul li a{
+        list-style: none!important;
+        float: left;
+        border-left: 1px solid rgba(0, 0, 0, 0.03);
+        border-right: 1px solid rgba(0, 0, 0, 0.03);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+
+        width: 100%;
+        padding: 5px!important;
+        color: #212121;
+        background: white;
+        text-decoration: none!important;
+
+
+    }
+
+    .form-group{
+        padding-right: 10px;
+    }
+.menu-direito{
+    position: absolute;
+    right: 1%;
+    margin-top: -3px;
+}
+.menu-direito a{
+    color: white!important;
+    font-weight: bold;
+    margin: 0;
+    padding: 15px;
+}
+.cadastrar-header{
+    padding-top: -5px!important;
+}
+.coluna-conta{
+    float: right;
+    width: 75%
+}
+
+.count-label{
+    position: absolute;
+    right: 0;
+    top: 0px;
+    background: red;
+    border-radius: 50%;
+    padding: 0 5px 0 5px;
+}
+
+.navbar-brand img {
+    width: 150px;
+    margin-top: -20px;
+}
+@media (max-width:990px) {
+
+    .mobilehide{
+        display: none;
+    }
+    .navbar-brand img {
+        width: 80px;
+        margin-top: -8px;
+    }
+.col-3{
+    flex: 100%!important;
+    max-width: 100%!important;
+}
+    .col-4{
+    flex: 100%!important;
+    max-width: 100%!important;
+}
+.slide .col-md-6{
+    width: 45%!important;
+}
+.count-label{
+        position: absolute;
+        right: -10px;
+        color: white;
+        padding: 0 5px;
+        top: -5px;
+        font-size: 12px;
+
+    }
+    #serchtyping{
+        width: 100%;
+
+    }
+    .coluna-conta{
+        float: right;
+        width: 100%
+    }
+    .search-camp{
+        width: 90%;
+    }
+    .menu-direito {
+        display: none;
+    }
+    .top-bar-container{
+        min-height: 100px!important;
+    }
+}
+
+
+
+/* Area da Home*/
+.beauty-categories-highlight{
+    background-image:url(http://fidatoseguros.com.br/wp-content/uploads/2018/03/banner-plano-saude-1.jpg) ;
+}
+.product-block__button{
+    float: left;
+    width: 50%;
+    padding-bottom: 5px;
+    font-size: 10px!important;
+    background: transparent!important;
+    color: #6d6969!important;
+    border-radius: 0!important;
+    margin: 0!important;
+
+}
+.product-block__button i{
+    float: left;
+    width: 100%;
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+
+.left-button{
+    border-right: 1px solid #dfdfdf!important;
+    border-bottom: 1px solid #dfdfdf;
+
+}
+.right-button{
+    border-left: 1px solid #dfdfdf!important;
+    border-bottom: 1px solid #dfdfdf;
+
+}
+
+/* PRODUTO COMPARE*/
+
+ul.breadcrumb>li>a{
+    color: #ee7c16!important;
+}
+.product-header__starting-price .product-block__starting-price-value strong{
+    color: #ee7c16!important;
+}
+.product-header__starting-price span.highlight {
+    color: #ee7c16!important;
+}
+
+.product-presentation__option-change{
+    color: #ee7c16!important;
+}
+.offer__price{
+    color: #ee7c16!important;
+}
+.product-presentation__cta{
+    background: #ee7c16!important;
+}
+.cr-grid .btn-danger{
+    background: #ee7c16!important;
+}
+.product-presentation__cta-text:after{
+    border-left-color:#ee7c16!important;
+}
