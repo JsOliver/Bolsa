@@ -3,7 +3,7 @@
             <a class="natureza_min"><?php echo $this->ModelDefault->natureza('lotes',$item['leiloes']);?></a>
             <a class="tipo_min"><?php echo $this->ModelDefault->tipoleilao('lotes',$item['leiloes']);?></a>
             <a href="<?php echo base_url('lote/'.$item['id']);?>">
-            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" style="float: left;width: 100%;height: 250px;" alt="featured-product-img">
+            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" onerror="this.src='<?php echo base_url('web/default.jpg');?>';" style="object-fit: cover!important; object-position: center!important;float: left;width: 100%;height: 250px;" alt="featured-product-img">
             </a>
                 <?php
                 if($item['stats'] == 0):

@@ -3,7 +3,7 @@
         <div class="row" onclick="window.location.href='<?php echo base_url('lotes/').$lote['leiloes'];?>';">
             <div class="col-md-2">
                 <div class="page-title">
-<img src="<?php echo  base_url('web/imagens/'.$comitente['image']);?>" onerror="this.src='<?php echo base_url('web/default.jpg')?>';" style="width: 150px;height: 100px;">
+                    <img src="<?php echo  base_url('web/imagens/'.$comitente['image']);?>" onerror="this.src='<?php echo base_url('web/default.jpg')?>';" style="width: 150px;height: 100px;">
                 </div>
             </div>
             <div class="col-md-10">
@@ -13,18 +13,18 @@
                     </p>
                     <div class="container">
                         <div class="row">
-                    <div class="col-md-6">
-                    <p style="height: 8px;"><b>Comitente</b> <?php echo $comitente['nome']?></p>
-                    <p><b>Data de Início</b> <?php echo $this->ModelDefault->inicioleilao($lote['leiloes']);?></p>
+                            <div class="col-md-6">
+                                <p style="height: 8px;"><b>Comitente</b> <?php echo $comitente['nome']?></p>
+                                <p><b>Data de Início</b> <?php echo $this->ModelDefault->inicioleilao($lote['leiloes']);?></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p style="height: 8px;"><b>Modalidade</b> <?php echo $this->ModelDefault->tipoleilao('lotes',$lote['leiloes']);?></p>
+                                <p><b>Data de Término:</b> <?php echo $this->ModelDefault->fimleilao($lote['leiloes']);?></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p style="height: 8px;"><b>Modalidade</b> <?php echo $this->ModelDefault->tipoleilao('lotes',$lote['leiloes']);?></p>
-                        <p><b>Data de Término:</b> <?php echo $this->ModelDefault->fimleilao($lote['leiloes']);?></p>
-                    </div>
                 </div>
-                </div>
-                </div>
-                </div>
+            </div>
 
         </div>
     </div>
@@ -35,13 +35,13 @@
             <div class="col-md-4">
 
                 <?php if(!empty($leiloes['edital'])):?>
-                <a href="<?php echo base_url('web/imagens/'.$leiloes['edital'])?>"  target="_blank" class="btn btn-primary text-white">VER EDITAL</a>
+                    <a href="<?php echo base_url('web/imagens/'.$leiloes['edital'])?>"  target="_blank" class="btn btn-primary text-white">VER EDITAL</a>
                 <?php endif;?>
                 <a class="btn btn-danger text-white" style="background: #9a241f;border-color: #9a241f;text-transform: uppercase;"><?php echo $this->ModelDefault->natureza('lotes',$lote['leiloes']);?></a>
 
             </div>
         </div>
-        </div>
+    </div>
 </section>
 
 <section class="mainContent clearfix">
@@ -62,26 +62,26 @@
 
                 if($count > 0):
                     $lotes_navega = $get->result_array();
-                ?>
+                    ?>
                     <div class="col-9" style="float: left;"></div>
-                <div class="col-3" style="float: left;margin-top: -20px;">
-                <select class="form-control" onchange="window.location.href='<?php echo base_url('lote/');?>'+this.value;">
+                    <div class="col-3" style="float: left;margin-top: -20px;">
+                        <select class="form-control" onchange="window.location.href='<?php echo base_url('lote/');?>'+this.value;">
 
-                    <?php foreach ($lotes_navega as $item) {
-                        if($lote['id'] == $item['id']):
+                            <?php foreach ($lotes_navega as $item) {
+                                if($lote['id'] == $item['id']):
 
-                                echo '<option value="'.$item['id'].'" selected="selected">Lote '.$item['nlote'].'</option>';
+                                    echo '<option value="'.$item['id'].'" selected="selected">Lote '.$item['nlote'].'</option>';
 
-                        else:
-                                echo '<option value="'.$item['id'].'">Lote '.$item['nlote'].'</option>';
+                                else:
+                                    echo '<option value="'.$item['id'].'">Lote '.$item['nlote'].'</option>';
 
-                        endif;
+                                endif;
 
-                    }?>
+                            }?>
 
 
-                </select>
-                </div>
+                        </select>
+                    </div>
                     <div class="clearfix"></div>
                 <?php endif;?>
                 <div class="media flex-wrap" style="margin-bottom: 20px!important;">
@@ -98,7 +98,7 @@
                         <div class="clearfix">
                             <div id="thumbcarousel" class="carousel slide" data-interval="false" style="display:none;">
                                 <div class="carousel-inner">
-                                    <div data-target="#carousel" data-slide-to="0" class="thumb"><img src="<?php echo base_url('web/imagens/'.$lote['image'])?>"></div>
+                                    <div data-target="#carousel" data-slide-to="0" class="thumb"><img src="<?php echo base_url('web/imagens/'.$lote['image'])?>" onerror="this.src='<?php echo base_url('web/default.jpg')?>';"></div>
 
                                 </div>
                                 <a class="left carousel-control" href="#thumbcarousel" role="button" data-slide="prev">
@@ -117,39 +117,39 @@
                         </ul>
                         <div class="row">
 
-                        <div class="col-md-8">
-                            <?php  if($lote['stats'] == 0):?>
-                         <!--   <a href="<?php echo base_url('auditorio/'.$lote['leiloes']);?>" class="situacao" style="background: #c43248;padding: 10px;"><i class="fa fa-gavel"></i> ACOMPANHAR NO AUDITÓRIO</a>
+                            <div class="col-md-8">
+                                <?php  if($lote['stats'] == 0):?>
+                                    <!--   <a href="<?php echo base_url('auditorio/'.$lote['leiloes']);?>" class="situacao" style="background: #c43248;padding: 10px;"><i class="fa fa-gavel"></i> ACOMPANHAR NO AUDITÓRIO</a>
                             <br>
                             <br>
                             <br>-->
-                            <?php endif;?>
-                            <?php
-                            if($lote['stats'] == 0):
+                                <?php endif;?>
+                                <?php
+                                if($lote['stats'] == 0):
 
-                                $valor = '<span class="situacao" id="situacaols" style="background: #39c470;padding: 10px;">Aberto para Lances</span>';
-                            elseif($lote['stats'] == 1):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #97bac4;padding: 10px;">Em Loteamento</span>';
-                            elseif($lote['stats'] == 2):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #97bac4;padding: 10px;">Aguardando para Abrir</span>';
-                            elseif($lote['stats'] == 3):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #c42052;padding: 10px;">Arrematado</span>';
-                            elseif($lote['stats'] == 4):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #c0c43e;padding: 10px;">Em Condicional</span>';
-                            elseif($lote['stats'] == 5):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #6d0e2b;padding: 10px;">Finalizado</span>';
-                            elseif($lote['stats'] == 6):
-                                $valor = '<span class="situacao" id="situacaols" style="background: #2e47c4;padding: 10px;">Venda Direta</span>';
-                            else:
-                                $valor = '<span class="situacao" id="situacaols" style="background: #6f8a92;padding: 10px;">Indefinido</span>';
-                            endif;
-                            echo $valor
-                            ?>
-                            <div class="clearfixr"></div>
-<br>
-<br>
-<br>
-                            <form id="lancevalor" action="javascript:dar_lance(<?php echo $lote['id'];?>);" method="post">
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #39c470;padding: 10px;">Aberto para Lances</span>';
+                                elseif($lote['stats'] == 1):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #97bac4;padding: 10px;">Em Loteamento</span>';
+                                elseif($lote['stats'] == 2):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #97bac4;padding: 10px;">Aguardando para Abrir</span>';
+                                elseif($lote['stats'] == 3):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #c42052;padding: 10px;">Arrematado</span>';
+                                elseif($lote['stats'] == 4):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #c0c43e;padding: 10px;">Em Condicional</span>';
+                                elseif($lote['stats'] == 5):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #6d0e2b;padding: 10px;">Finalizado</span>';
+                                elseif($lote['stats'] == 6):
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #2e47c4;padding: 10px;">Venda Direta</span>';
+                                else:
+                                    $valor = '<span class="situacao" id="situacaols" style="background: #6f8a92;padding: 10px;">Indefinido</span>';
+                                endif;
+                                echo $valor
+                                ?>
+                                <div class="clearfixr"></div>
+                                <br>
+                                <br>
+                                <br>
+                                <form id="lancevalor" action="javascript:dar_lance(<?php echo $lote['id'];?>);" method="post">
                         <span class="">
                             <h3 class="text-danger" style="color: #9a241f!important;height: 10px;">Dê seu Lance</h3>
 
@@ -157,25 +157,25 @@
 
                 <input type="tel" name="lance" class="form-control money2" style="float: left;width: 100%;" id="lancevalues" placeholder="Informe o valor (Ex. R$ 15.000,00)" required="required"/>
                   </span>
-                            <div class="btn-area">
-                                <button type="submit" style="float: left;width: 100%;" class="btn btn-primary btn-default"><span class="fa fa-gavel"></span> Enviar meu Lance <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                                    <div class="btn-area">
+                                        <button type="submit" style="float: left;width: 100%;" class="btn btn-primary btn-default"><span class="fa fa-gavel"></span> Enviar meu Lance <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                                        <div class="clearfixr"></div>
+
+                                    </div>
+                                </form>
+                                <div id="blocksdisplays" style="padding: 5px;float: left;background: red;position: absolute;height: 230px;width: 93%;top: 0;background: #0000003d;display: none;"></div>
+
                                 <div class="clearfixr"></div>
-
+                                <br>
                             </div>
-                            </form>
-                            <div id="blocksdisplays" style="padding: 5px;float: left;background: red;position: absolute;height: 230px;width: 93%;top: 0;background: #0000003d;display: none;"></div>
-
-                            <div class="clearfixr"></div>
-<br>
-                        </div>
-                        <div class="col-md-4">
+                            <div class="col-md-4">
                             <span style="text-align: center;padding: 20px 10px 20px 10px;color: #9a241f;float: left;width: 100%;background: #fafafa">
 
                                 <?php if($lote['stats'] == 0):?>
-                                <h5 style="margin-top: 25px;">Leilão Encerra em:</h5>
-                                <p style="font-size: 18px;height: 5px;" id="clock">00:00:00</p>
-                                <br>
-                                <h5>Lance Atual</h5>
+                                    <h5 style="margin-top: 25px;">Leilão Encerra em:</h5>
+                                    <p style="font-size: 18px;height: 5px;" id="clock">00:00:00</p>
+                                    <br>
+                                    <h5>Lance Atual</h5>
 
                                 <?php elseif($lote['stats'] == 3):?>
                                     <h5 style="margin-top: 25px;">Leilão Arrematado:</h5>
@@ -188,7 +188,7 @@
 
                                 <?php if($lote['stats'] == 0):?>
 
-                                <p style="font-size: 18px;height: 0px;margin-bottom: 20px;" id="lance_atual">R$ <?php  echo empty($lote['lance_atual']) ? '0.00' : @number_format($lote['lance_atual'],2,'.',',');?></p>
+                                    <p style="font-size: 18px;height: 0px;margin-bottom: 20px;" id="lance_atual">R$ <?php  echo empty($lote['lance_atual']) ? '0.00' : @number_format($lote['lance_atual'],2,'.',',');?></p>
 
                                 <?php else:?>
                                     <p style="font-size: 18px;height: 0px;margin-bottom: 20px;">---- ----</p>
@@ -203,9 +203,9 @@
 
 
 
+                            </div>
                         </div>
-                        </div>
-<br>
+                        <br>
                         <div class="tabArea">
                             <div class="clearfixr"></div>
 
@@ -300,12 +300,12 @@
 
                 <div class="row">
                     <div class="col-md-2">
-                <h3>Informações</h3>
+                        <h3>Informações</h3>
 
-                <p style="height: 5px;">Lote: <?php echo $comitente['nome'];?> - <?php echo $lote['nlote'];?></p>
-                <p style="height: 5px;font-weight: bold;">Lance Inicial: <br>
-                <h4>R$ <?php echo @number_format($lote['lance_ini'],2,'.',',');?></h4>
-                </p>
+                        <p style="height: 5px;">Lote: <?php echo $comitente['nome'];?> - <?php echo $lote['nlote'];?></p>
+                        <p style="height: 5px;font-weight: bold;">Lance Inicial: <br>
+                        <h4>R$ <?php echo @number_format($lote['lance_ini'],2,'.',',');?></h4>
+                        </p>
                     </div>
 
                     <div class="col-md-3">
@@ -314,7 +314,7 @@
                         <p style="height: 5px;">Término: <?php echo date('d/m/Y H:i',strtotime($lote['data_fim']));?></p>
                         <p style="height: 5px;">Localidade: Belo Horizonte, MG</p>
                         <?php if($lote['stats'] == 0):?>
-                        <p style="height: 5px;">Despesas: R$ 220</p>
+                            <p style="height: 5px;">Despesas: R$ 220</p>
                         <?php endif;?>
                         <p style="height: 5px;">Comissão do Leiloeiro: 5% - Cinco Porcento</p>
 
@@ -326,22 +326,22 @@
             </div>
         </div>
         <?php if(isset($proximos_lote) and count($proximos_lote) > 0):?>
-        <div class="page-header">
-            <h4>Proximos Lotes</h4>
-        </div>
-        <div class="row productsContent">
+            <div class="page-header">
+                <h4>Proximos Lotes</h4>
+            </div>
+            <div class="row productsContent">
 
-            <?php
-
-
-            foreach ($proximos_lote as $value){
-                $arr['item'] = $value;  $this->load->view('sistema/leilao/z_files/lotes',$arr);
-            }
-            ?>
+                <?php
 
 
+                foreach ($proximos_lote as $value){
+                    $arr['item'] = $value;  $this->load->view('sistema/leilao/z_files/lotes',$arr);
+                }
+                ?>
 
-        </div>
+
+
+            </div>
 
         <?php endif;?>
     </div>

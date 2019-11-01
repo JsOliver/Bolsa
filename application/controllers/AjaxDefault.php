@@ -40,6 +40,7 @@ class AjaxDefault extends CI_Controller
 
 
     }
+
     public function loadmore(){
 
 
@@ -59,6 +60,7 @@ class AjaxDefault extends CI_Controller
 
 
     }
+
     public function finalizarleilao(){
 
 

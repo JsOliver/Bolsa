@@ -7,7 +7,7 @@
             <?php else:?>
             <a href="<?php if($this->ModelDefault->count_lotes($item['id']) == 0): echo 'javascript:void(0);'; else: echo base_url('lotes/'.$item['id']);endif;?>">
             <?php endif;?>
-            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" style="float: left;width: 100%;height: 180px;" alt="featured-product-img">
+            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" onerror="this.src='<?php echo base_url('web/default.jpg');?>';" style="object-fit: cover!important; object-position: center!important;float: left;width: 100%;height: 180px;" alt="featured-product-img">
         </a>
         <?php
         if($item['stats'] == 0):

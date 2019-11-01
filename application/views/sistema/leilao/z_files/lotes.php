@@ -3,8 +3,8 @@
     <div class="productImage clearfix">
         <a class="natureza_min" style="color: white;"><?php echo $this->ModelDefault->natureza('lotes',$item['leiloes']);?></a>
         <a class="tipo_min" style="color: white;"><?php echo $this->ModelDefault->tipoleilao('lotes',$item['leiloes']);?></a>
-        <a href="<?php echo base_url('lote/'.$item['id']);?>">
-            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" onerror="this.src='<?php echo base_url('web/default.jpg')?>';" style="float: left;width: 100%;height: 250px;" alt="featured-product-img">
+        <a href="<?php echo base_url('lote-leilao/'.$item['leiloes']);?>">
+            <img src="<?php echo base_url('web/imagens/'.$item['image'])?>" onerror="this.src='<?php echo base_url('web/default.jpg')?>';" style="object-fit: cover!important; object-position: center!important;float: left;width: 100%;height: 250px;" alt="featured-product-img">
         </a>
 
         <?php
@@ -31,7 +31,7 @@
     <div class="productCaption clearfix">
 
 
-        <a href="<?php echo base_url('lote/'.$item['id']);?>">
+        <a href="<?php echo base_url('lote-leilao/'.$item['leiloes']);?>">
             <h4>Lote <?php echo $item['nlote'];?> - <?php echo $this->ModelDefault->limita_caracteres($item['nome'],40);?></h4>
             <?php if($item['stats'] == 0):?>
             <!--<a href="<?php echo base_url('auditorio/'.$item['leiloes']);?>" class="situacao" style="background: #c43248;"><i class="fa fa-gavel"></i> ACOMPANHAR NO AUDITÓRIO</a>

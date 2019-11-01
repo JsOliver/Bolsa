@@ -73,6 +73,7 @@ $route['minha-conta/lotes-arrematados'] = 'Defaults/lotes_arrematados';
 //Produtos
 $route['lotes/(.+)'] = 'Defaults/lotes';
 $route['lote/(.+)'] = 'Defaults/lote';
+$route['lote-leilao/(.+)'] = 'Defaults/lote_leilao';
 
 
 $route['auditorio/(.+)'] = 'Defaults/auditorio';
