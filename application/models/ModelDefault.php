@@ -137,12 +137,12 @@ class ModelDefault extends CI_Model
 
 
 
-    public function terminoLote($arr){
+    public function terminoLote($arr,$leilao){
 
-        $db['stats'] = 0;
 
         $this->db->select('id');
         $this->db->from('lances_lote');
+        $this->db->where('leilao',$leilao);
         $this->db->where('lote',$arr);
         $get = $this->db->get();
         $count = $get->num_rows();

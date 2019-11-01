@@ -116,65 +116,77 @@ function checkstimelocal(){
 
                     atualizar_lote(0,<?php echo $lote['id']?>);
 
-                    <?php if($lote['stats'] == 0 and isset($proximo_lote['id'])): ?>
                     if(contagem === '0000') {
- $("#blocksdisplays").css("display","block");
-                       
+
+                        $("#blocksdisplays").css("display","block");
+
+                        $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:50px;'> Registrando");
+
                         $.ajax({
-                            url: DIR+'AjaxDefault/finalizarleilao',
-                            data: {lote:<?php echo $lote['id']?>},
+                            url:'<?php echo base_url('')?>/AjaxDefault/homologar_lote',
+                            data: {lote: <?php echo $lote['id']?>},
                             type: 'POST',
                             beforeSend: function () {
+
+                                timeout = setTimeout(function () { // quando o timer for disparado...
+                                    timeout = false; // ... apagamos sua referência ...
+                                    $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Homologando");
+
+                                }, 200);
+
                             },
                             error: function (res) {
-                                 var timer = setInterval(function() { window.location.href = "<?php echo  base_url('redireciona?leilao=' . $proximo_lote['leiloes'].'&&lote='.$lote['id']);?>"; }, 2000);
+                                timeout = setTimeout(function () { // quando o timer for disparado...
+                                    timeout = false; // ... apagamos sua referência ...
+                                    $("#clock").html("<i class='fa fa-2x fa-times text-danger'></i> Erro");
+
+                                }, 2000);
+
+
                             },
                             success: function (data) {
-                                if(data != 0){
-                                     var timer = setInterval(function() { window.location.href = "<?php echo base_url('redireciona?leilao=' . $proximo_lote['leiloes'].'&&lote='.$lote['id']);?>"; }, 2000);
+
+
+
+                                if(data == 0){
+
+
+                                    timeout = setTimeout(function () { // quando o timer for disparado...
+                                        timeout = false; // ... apagamos sua referência ...
+                                        $("#clock").html("<i class='fa fa-2x fa-times text-danger'></i> Erro");
+
+                                    }, 2000);
                                 }else{
-                       $("#blocksdisplays").css("display","none");
+
+                                    timeout = setTimeout(function () { // quando o timer for disparado...
+                                        timeout = false; // ... apagamos sua referência ...
+                                        $("#clock").html("<i class='fa fa-2x fa-check-circle text-success'></i> Sucesso");
+
+
+
+                                    }, 2000);
+
+
                                 }
+
+
+
                             }
                         });
 
-                       
 
 
                     }
-                    <?php else:?>
-                    $.ajax({
-                        url: DIR+'AjaxDefault/finalizarleilao',
-                        data: {lote:<?php echo $lote['id']?>},
-                        type: 'POST',
-                        beforeSend: function () {
-                        },
-                        error: function (res) {
-                        },
-                        success: function (data) {
-                                 if(data != 0){
-                             $("#blocksdisplays").css("display","block");
 
-                                }else{
-                       $("#blocksdisplays").css("display","none");
-                                }
-                        }
-                    });
-                    var timer = setInterval(function() {
-                 $("#blocksdisplays").css("display","block");
-                        $("#clock").text('Lote Finalizado');
-                        $("#situacaols").remove();
-                    }, 1000);
-
-
-
-
-                    <?php endif;?>
                 }else{
+
+
+
+
+                    setTimeout(function(){ checktime(); }, 1000);
 
                 }
 
-                setTimeout(function(){ checktime(); }, 1000);
 
 
             }

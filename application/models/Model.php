@@ -1538,7 +1538,7 @@ function finalizalote(lote){
 
         endif;
         if ($campo == 'LOGOMARCA' or $campo == 'FAVICON'):
-            $valor = '<img src="' . base_url('web/imagens/' . $valor) . '" onerror="\''.base_url('web/default.jpg').'\'" style="width:100px;">';
+            $valor = '<img src="' . base_url('web/imagens/' . $valor) . '" onerror="this.src=\''.base_url('web/default.jpg').'\';" style="width:100px;">';
         endif;
 
         if ($campo == 'lotes'):
@@ -1555,7 +1555,7 @@ function finalizalote(lote){
             $this->db->where('id', $valor);
             $get = $this->db->get();
             $response = $get->result_array()[0];
-            $valor = '<img src="' . base_url('web/imagens/' . $response['image']) . '" onerror="\''.base_url('web/default.jpg').'\'" style="width:100px;">';
+            $valor = '<img src="' . base_url('web/imagens/' . $response['image']) . '" onerror="this.src=\''.base_url('web/default.jpg').'\';" style="width:100px;">';
         endif;
 
         if ($campo == 'lance_atual'):
@@ -1639,11 +1639,11 @@ function finalizalote(lote){
         if ($campo == 'image'):
 
             if (isset($outros_values['image_externa']) and !empty($outros_values['image_externa'])):
-                $valor = '<img src="' . $outros_values['image_externa'] . '" onerror="\''.base_url('web/default.jpg').'\'" style="width:100px;">';
+                $valor = '<img src="' . $outros_values['image_externa'] . '" onerror="this.src=\''.base_url('web/default.jpg').'\';" style="width:100px;">';
 
             else:
 
-                $valor = '<img src="' . base_url('web/imagens/' . $valor) . '" onerror="\''.base_url('web/default.jpg').'\'" style="width:100px;">';
+                $valor = '<img src="' . base_url('web/imagens/' . $valor) . '" onerror="this.src=\''.base_url('web/default.jpg').'\';" style="width:100px;">';
 
             endif;
 

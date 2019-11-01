@@ -411,6 +411,63 @@ class AjaxDefault extends CI_Controller
 
     }
 
+    public function homologar_lote(){
+
+
+
+            $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
+            $this->db->from('lotes');
+            $this->db->where('id',$_POST['lote']);
+            $get = $this->db->get();
+
+            $count = $get->num_rows();
+
+            if($count > 0):
+                $lote = $get->result_array()[0];
+            if($lote['stats'] == 0):
+
+                if(empty($lote['data_acrescimo'])):
+                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
+
+                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+
+
+                    else:
+
+                        echo 0;
+
+                    endif;
+                    else:
+
+                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
+
+                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+
+
+
+                        else:
+
+                        echo 0;
+
+                    endif;
+
+                endif;
+
+                else:
+
+                echo 0;
+
+            endif;
+
+            else:
+
+            echo 0;
+
+
+
+
+        endif;
+        }
 
     //Funções de Acesso
     public function cadastro()
