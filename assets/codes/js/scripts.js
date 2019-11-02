@@ -228,6 +228,24 @@ function logout_empresa() {
 
 }
 
+
+function remover_imagem(id,tabela,campo) {
+    $.ajax({
+        url: DIR+'Ajax/remover_imagem',
+        data: {id:id,tabela:tabela,campo:campo},
+        type: 'POST',
+        beforeSend: function () {
+        },
+        error: function (res) {
+        },
+        success: function (data) {
+            $('.modal').hide();
+            $('.modal-backdrop').removeClass('modal-backdrop');
+        }
+    });
+}
+
+
 function loadpagerequest(acao) {
     if (acao == 1) {
         $('body').css('opacity', '0.5');

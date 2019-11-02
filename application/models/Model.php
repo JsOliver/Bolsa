@@ -1941,7 +1941,7 @@ endif;
                         
                                 <div class=\'preview\'> </div>
                    ';
-            $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 45%;margin-right: 5px;margin-top: 2px;">VISUALIZAR</a> <a class="btn btn-danger" href="javascript:remover_imagem('.$id.');" target="_blank" style="width: 45%;margin-top: 2px;">Remover</a> </div>';
+            $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 45%;margin-right: 5px;margin-top: 2px;">VISUALIZAR</a> <a class="btn btn-danger" href="javascript:remover_imagem('.$id.',\''.$menu_adm['tabela'].'\',\''.$fields.'\');"  style="width: 45%;margin-top: 2px;">Remover</a> </div>';
         }else{
             $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
                         <label for="recipient-name" class="control-label">' . $this->tabela_filtro(trim($fields)) . ':</label>

@@ -12,6 +12,16 @@ class Ajax extends CI_Controller
         date_default_timezone_set("America/Sao_Paulo");
         setlocale(LC_ALL, 'pt_BR');
     }
+
+    public function remover_imagem(){
+
+        $arr[''.$_POST['campo'].''] = '';
+        $this->db->where('id',$_POST['id']);
+        $this->db->update($_POST['tabela'],$arr);
+
+        echo 11;
+    }
+
     public function finalizarLeilao(){
 
         $this->db->from('lotes');
