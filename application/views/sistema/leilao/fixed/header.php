@@ -226,6 +226,7 @@ function checkstimelocal(){
 </head>
 
 <body class="body-wrapper">
+<span id="preloaderpre"></span>
 <?php
 $url = $this->uri->segment(1);
 
@@ -290,30 +291,37 @@ if(empty($url)):
 
                 <div class="navTop-middle">
                     <div class="filterArea d-none d-lg-block">
-                        <select name="guiest_id1" id="guiest_id1" class="select-drop">
-                            <option value="all">Todos os Comitentes</option>
+                        <select name="guiest_id1" id="guiest_id1" class="select-drop" onchange="setar_comitente(this.value);">
+                            <option value="all">Todos os Leilões</option>
 
                             <?php
-                            foreach ($comitentes as $value){
+                            foreach ($leiloes_limit as $value){
+                                if(isset($_SESSION['comitente_set']) and $_SESSION['comitente_set'] == $value['id']):
                             ?>
-                            <option value="<?php echo $value['id'];?>"><?php echo $value['nome'];?></option>
-                            <?php }?>
+                            <option value="<?php echo $value['id'];?>" selected="selected"><?php echo $value['nome'];?></option>
+
+                             <?php else: ?>
+                                    <option value="<?php echo $value['id'];?>"><?php echo $value['nome'];?></option>
+
+                            <?php endif; }?>
                         </select>
                     </div>
                     <div class="searchBox">
+                        <form method="get" action="<?php echo base_url('busca')?>">
                 <span class="input-group">
-                  <input id="searchbox" type="text" class="form-control" placeholder="O que você procura?" aria-describedby="basic-addon2">
-                  <button id="searchButton" type="submit" class="input-group-addon"><i class="fa fa-search"></i></button>
+                  <input name="busca" type="text" class="form-control" placeholder="O que você procura?" <?php  if(isset($_GET['busca']) and !empty($_GET['busca'])): echo 'value="'.$_GET['busca'].'"'; endif;?> aria-describedby="basic-addon2">
+                  <button type="submit" class="input-group-addon"><i class="fa fa-search"></i></button>
                 </span>
+                        </form>
                     </div>
                 </div>
 
             </div>
         </div>
-        <?php if(isset($banners) and count($banners) > 0):?>
         <!-- NAVBAR -->
         <nav class="navbar navbar-main navbar-default navbar-expand-md nav-V3" role="navigation">
             <div class="container">
+                <?php if(isset($banners) and count($banners) > 0):?>
 
                 <div class="nav-category dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -342,6 +350,7 @@ if(empty($url)):
                     </ul>
                 </div>
 
+                <?php endif;?>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse" aria-controls="navbar-ex1-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa fa-bars"></span>
                 </button>
@@ -350,7 +359,7 @@ if(empty($url)):
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
                         <li class="nav-item active">
-                            <a href="<?php echo base_url('');?>" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Inicio</a>
+                            <a href="<?php echo base_url('');?>" class="nav-link">Inicio</a>
                         </li>
 
                         <li class="nav-item">
@@ -374,7 +383,6 @@ if(empty($url)):
 
             </div>
         </nav>
-        <?php endif;?>
 
     </div>
 <?php if(isset($banners) and count($banners) > 0):?>

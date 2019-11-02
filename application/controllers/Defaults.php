@@ -68,6 +68,9 @@ class Defaults extends CI_Controller
                 $array['banner_lateral'] = $banner_lateral;
             endif;
             $this->db->from('lotes');
+            if(isset($_SESSION['comitente_set']) and $_SESSION['comitente_set'] > 0):
+                $this->db->where('leiloes',$_SESSION['comitente_set']);
+            endif;
             $this->db->where('star',1);
             $this->db->where('status',1);
             $this->db->where('stats',0);
@@ -86,6 +89,16 @@ class Defaults extends CI_Controller
             $get = $this->db->get();
             $leiloes = $get->result_array();
             $array['leiloes'] = $leiloes;
+
+
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
 
 
             $this->db->from('leiloes');
@@ -109,6 +122,53 @@ class Defaults extends CI_Controller
         endif;
     }
 
+    public function busca(){
+        $this->db->from('set_up');
+        $this->db->where('status', 1);
+        $get = $this->db->get();
+        $count = $get->num_rows();
+        if ($count > 0):
+
+
+
+            $administrativo = $get->result_array()[0];
+
+
+
+            $this->db->from('config');
+            $get = $this->db->get();
+            $config = $get->result_array()[0];
+            $array['config'] = $config;
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
+
+
+            //Area da Busca
+
+            $this->db->from('lotes');
+            if(isset($_GET['busca']) and !empty($_GET['busca'])):
+                $this->db->like('nome',$_GET['busca']);
+            endif;
+            $this->db->order_by('status',1);
+            $this->db->limit(12,0);
+            $get = $this->db->get();
+            $lotes = $get->result_array();
+            $array['lotes_busca'] = $lotes;
+
+
+            $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
+            $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/busca', $array);
+            $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/footer', $array);
+
+        endif;
+        }
+
     public function quem_somos(){
         $this->db->from('set_up');
         $this->db->where('status', 1);
@@ -126,6 +186,17 @@ class Defaults extends CI_Controller
             $get = $this->db->get();
             $config = $get->result_array()[0];
             $array['config'] = $config;
+
+
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
+
 
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/quem_somos', $array);
@@ -159,6 +230,17 @@ class Defaults extends CI_Controller
             $get = $this->db->get();
             $config = $get->result_array()[0];
             $array['config'] = $config;
+
+
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
+
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/como_funciona', $array);
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/footer', $array);
@@ -191,6 +273,14 @@ class Defaults extends CI_Controller
             $get = $this->db->get();
             $config = $get->result_array()[0];
             $array['config'] = $config;
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
 
 
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
@@ -297,6 +387,14 @@ class Defaults extends CI_Controller
 
 
 
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
 
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
             $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/lotes', $array);
@@ -333,6 +431,14 @@ class Defaults extends CI_Controller
 
         $comitentes = $get->result_array();
         $array['comitentes'] = $comitentes;
+        $this->db->from('leiloes');
+        $this->db->where('status',1);
+        $this->db->where('finalizado',0);
+        $this->db->order_by('id','desc');
+        $this->db->limit(5,0);
+        $get = $this->db->get();
+        $leiloes = $get->result_array();
+        $array['leiloes_limit'] = $leiloes;
 
         $this->db->from('set_up');
         $this->db->where('status', 1);
@@ -549,6 +655,14 @@ class Defaults extends CI_Controller
 
 
             $administrativo = $get->result_array()[0];
+            $this->db->from('leiloes');
+            $this->db->where('status',1);
+            $this->db->where('finalizado',0);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5,0);
+            $get = $this->db->get();
+            $leiloes = $get->result_array();
+            $array['leiloes_limit'] = $leiloes;
 
 
 
@@ -724,6 +838,7 @@ class Defaults extends CI_Controller
         endif;
 
     }
+
     public function lances(){
         if ($this->ModelDefault->session() == true):
 
@@ -765,6 +880,14 @@ class Defaults extends CI_Controller
                     $documentos = $get->result_array()[0];
                     $array['documentos'] = $documentos;
                 endif;
+                $this->db->from('leiloes');
+                $this->db->where('status',1);
+                $this->db->where('finalizado',0);
+                $this->db->order_by('id','desc');
+                $this->db->limit(5,0);
+                $get = $this->db->get();
+                $leiloes = $get->result_array();
+                $array['leiloes_limit'] = $leiloes;
 
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/conta/lances', $array);
@@ -825,6 +948,14 @@ class Defaults extends CI_Controller
                     $documentos = $get->result_array()[0];
                     $array['documentos'] = $documentos;
                 endif;
+                $this->db->from('leiloes');
+                $this->db->where('status',1);
+                $this->db->where('finalizado',0);
+                $this->db->order_by('id','desc');
+                $this->db->limit(5,0);
+                $get = $this->db->get();
+                $leiloes = $get->result_array();
+                $array['leiloes_limit'] = $leiloes;
 
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/conta/minha_conta', $array);
@@ -885,6 +1016,14 @@ class Defaults extends CI_Controller
                     $documentos = $get->result_array()[0];
                     $array['documentos'] = $documentos;
                 endif;
+                $this->db->from('leiloes');
+                $this->db->where('status',1);
+                $this->db->where('finalizado',0);
+                $this->db->order_by('id','desc');
+                $this->db->limit(5,0);
+                $get = $this->db->get();
+                $leiloes = $get->result_array();
+                $array['leiloes_limit'] = $leiloes;
 
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/fixed/header', $array);
                 $this->load->view('sistema/' . $this->Model->setDirSystem($administrativo['permissoes']) . '/conta/lotes_arrematados', $array);
@@ -930,6 +1069,14 @@ class Defaults extends CI_Controller
             $this->db->update('lotes',$dbpb);
 
         endif;
+        $this->db->from('leiloes');
+        $this->db->where('status',1);
+        $this->db->where('finalizado',0);
+        $this->db->order_by('id','desc');
+        $this->db->limit(5,0);
+        $get = $this->db->get();
+        $leiloes = $get->result_array();
+        $array['leiloes_limit'] = $leiloes;
 
         echo '<script>window.location.href="'.base_url('lote/'.($_GET['lote']+1)).'";</script>';
 

@@ -1455,36 +1455,6 @@ endif;
             endif;
             if($menu_admin['tabela'] == 'lotes'):
 
-                $valor .= "<a href='javascript:finalizalote(".$outros_values['id'].");'>FINALIZAR LOTES</a>
-
-<script>
-
-function finalizalote(lote){
-  $.ajax({
-                        url: '".base_url('AjaxDefault/finalizarleilao')."',
-                        data: {lote:lote},
-                        type: 'POST',
-                        beforeSend: function () {
-                        },
-                        error: function (res) {
-                        },
-                        success: function (data) {
-                            
-                            alert(data);
-                                 if(data != 0){
-                             $(\"#blocksdisplays\").css(\"display\",\"block\");
-
-                                }else{
-                       $(\"#blocksdisplays\").css(\"display\",\"none\");
-                                }
-                        }
-                    });
-                       
-                       
-                       }
-</script>
-";
-
 
                 if($outros_values['star'] == 0):
 
@@ -1971,7 +1941,7 @@ function finalizalote(lote){
                         
                                 <div class=\'preview\'> </div>
                    ';
-            $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 100%;">VISUALIZAR</a> </div>';
+            $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 45%;margin-right: 5px;margin-top: 2px;">VISUALIZAR</a> <a class="btn btn-danger" href="javascript:remover_imagem('.$id.');" target="_blank" style="width: 45%;margin-top: 2px;">Remover</a> </div>';
         }else{
             $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
                         <label for="recipient-name" class="control-label">' . $this->tabela_filtro(trim($fields)) . ':</label>

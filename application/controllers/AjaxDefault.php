@@ -14,6 +14,24 @@ class AjaxDefault extends CI_Controller
         setlocale(LC_ALL, 'pt_BR');
     }
 
+    public function setar_comitente(){
+
+        if($_POST['comitente'] == 'all' and isset($_SESSION['comitente_set']) and $_SESSION['comitente_set'] > 0):
+
+            unset($_SESSION['comitente_set']);
+            echo 11;
+
+        else:
+
+
+            $_SESSION['comitente_set'] =  $_POST['comitente'];
+
+        echo 11;
+
+        endif;
+
+    }
+
     public function readline() {
         return rtrim(fgets(STDIN));
     }

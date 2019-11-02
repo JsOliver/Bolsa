@@ -61,7 +61,7 @@ $route['como-funciona'] = 'Defaults/como_funciona';
 $route['home'] = 'Defaults/index';
 $route['cadastrar'] = 'Defaults/cadastro';
 $route['acessar'] = 'Defaults/login';
-
+$route['busca'] = 'Defaults/busca';
 $route['como-funciona'] = 'Defaults/comofunciona';
 
 

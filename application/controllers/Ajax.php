@@ -55,8 +55,10 @@ class Ajax extends CI_Controller
     public function uploadImage()
     {
 
-
-        $filename = date('dmY') . '_' . rand() . $_FILES['file']['name'];
+        $extensao = pathinfo($_FILES['file']['name']);
+        $extensao = ".".$extensao['extension'];
+        $imagem = time().rand().$extensao;
+        $filename = $imagem;
 
         /* Location */
         $location = $_SERVER['DOCUMENT_ROOT'] . "/projetos/Bolsa/web/imagens/" . $filename;

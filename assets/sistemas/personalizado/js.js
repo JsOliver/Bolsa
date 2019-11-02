@@ -62,6 +62,7 @@ $(document).ready(function() {
         }
     });
 });
+
 $(document).ready(function(){
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
@@ -99,6 +100,7 @@ $(document).ready(function(){
     });
     $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 });
+
 $(function () {
     var i = -1;
     var toastCount = 0;
@@ -240,11 +242,7 @@ $(function () {
     $('#cleartoasts').click(function () {
         toastr.clear();
     });
-})
-
-
-
-
+});
 
 /*Funções do Site */
 
@@ -263,6 +261,27 @@ function intencao_cotacao(produto) {
 }
 
 //Função de Busca
+
+function setar_comitente(comitente) {
+    $.ajax({
+        url: DIR+'/AjaxDefault/setar_comitente',
+        data: {comitente:comitente},
+        type: 'POST',
+        beforeSend: function () {
+        },
+        error: function (res) {
+        },
+        success: function (data) {
+            if(data == 11){
+                $("body").css('opacity','0.5');
+                timeout = setTimeout(function () { // quando o timer for disparado...
+                    timeout = false; // ... apagamos sua referência ...
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+    });
+}
 
 function categoria(val) {
 
@@ -531,8 +550,6 @@ function redefinirAgora() {
 
 //Funções de Conta
 
-
-
 function logout() {
 
     $.ajax({
@@ -602,8 +619,6 @@ function logout() {
     });
 
 }
-
-
 
 //Funções do Carrinho
 
@@ -928,6 +943,7 @@ function atualizarqnt(id, quantidade) {
         }
     });
 }
+
 function showLancebtn(produto) {
 
     if($("#meulancefields"+produto).hasClass('openss')){
@@ -945,6 +961,7 @@ function showLancebtn(produto) {
     }
 
 }
+
 function alterarLanceCard(item,valor) {
     if(valor) {
 
@@ -1251,7 +1268,6 @@ function revisarPedido() {
 
 }
 
-
 function keysession(valor) {
     $.ajax({
         url: DIR+'AjaxDefault/keysession',
@@ -1271,7 +1287,6 @@ function keysession(valor) {
     });
 }
 
-
 var contagem = 0;
 function pegar_segundos(valor) {
 
@@ -1280,7 +1295,6 @@ function pegar_segundos(valor) {
 
 var contagemauditorio = new Array();
 
-
 function pegar_segundosauditorio(valor,id) {
 
 
@@ -1288,7 +1302,6 @@ function pegar_segundosauditorio(valor,id) {
 
 
 }
-
 
 function iniciarcronometro(variavel) {
     var nextYear = moment.tz(variavel, "America/Sao_Paulo");
@@ -1313,6 +1326,7 @@ function iniciarcronometroauditorio(variavel,id) {
 
     });
 }
+
 function atualizar_lote(metodo,lote,setTime) {
 
     if(metodo == 1){
@@ -1374,6 +1388,7 @@ function atualizar_lote(metodo,lote,setTime) {
 
 
 }
+
 function atualizar_loteauditorio(metodo,lote,setTime) {
 
     if(metodo == 1){
@@ -1484,7 +1499,6 @@ function checktimeauditorio(lote){
     setTimeout(function(){ checktimeauditorio(lote); }, 1000);
 
 }
-
 
 function dar_lance(lote) {
 
@@ -1614,8 +1628,6 @@ function dar_lanceauditorio(lote) {
 
 }
 
-
-
 function loadmore(leilao,page) {
 
     $("#buttonloadmore").html('<a href="javascript:void(0);" class="btn btn-danger text-white">Carregando...</a>');
@@ -1669,3 +1681,5 @@ function loadmoreauditorio(leilao,page) {
     });
 
 }
+
+
