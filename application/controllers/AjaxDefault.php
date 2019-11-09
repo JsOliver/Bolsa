@@ -14,24 +14,6 @@ class AjaxDefault extends CI_Controller
         setlocale(LC_ALL, 'pt_BR');
     }
 
-    public function setar_comitente(){
-
-        if($_POST['comitente'] == 'all' and isset($_SESSION['comitente_set']) and $_SESSION['comitente_set'] > 0):
-
-            unset($_SESSION['comitente_set']);
-            echo 11;
-
-        else:
-
-
-            $_SESSION['comitente_set'] =  $_POST['comitente'];
-
-        echo 11;
-
-        endif;
-
-    }
-
     public function readline() {
         return rtrim(fgets(STDIN));
     }
@@ -58,7 +40,6 @@ class AjaxDefault extends CI_Controller
 
 
     }
-
     public function loadmore(){
 
 
@@ -78,7 +59,6 @@ class AjaxDefault extends CI_Controller
 
 
     }
-
     public function finalizarleilao(){
 
 
@@ -121,11 +101,11 @@ class AjaxDefault extends CI_Controller
                             $this->db->where('id',($_POST['lote']+1));
                             $this->db->update('lotes',$db);
                             echo 77;
-                            else:
+                        else:
 
-                        $lote['stats'] = $this->ModelDefault->terminoLote($lote['id']);
+                            $lote['stats'] = $this->ModelDefault->terminoLote($lote['id']);
 
-                        echo 11;
+                            echo 11;
 
                         endif;
                     endif;
@@ -148,22 +128,22 @@ class AjaxDefault extends CI_Controller
                         $this->db->where('id',($_POST['lote'] + 1));
                         $this->db->update('lotes',$db);
                         echo 77;
-                        else:
-                    $lote['stats'] = $this->ModelDefault->terminoLote($lote['id']);
-                    echo 11;
+                    else:
+                        $lote['stats'] = $this->ModelDefault->terminoLote($lote['id']);
+                        echo 11;
 
+                    endif;
                 endif;
-                endif;
 
 
-                else:
+            else:
 
 
-                    echo 13;
+                echo 13;
 
             endif;
 
-            else:
+        else:
 
             echo 12;
         endif;
@@ -201,7 +181,68 @@ class AjaxDefault extends CI_Controller
 
     }
 
+
+    public function homologar_lote(){
+
+
+
+        $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
+        $this->db->from('lotes');
+        $this->db->where('id',$_POST['lote']);
+        $get = $this->db->get();
+
+        $count = $get->num_rows();
+
+        if($count > 0):
+            $lote = $get->result_array()[0];
+            if($lote['stats'] == 0):
+
+                if(empty($lote['data_acrescimo'])):
+                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
+
+                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+
+
+                    else:
+
+                        echo 0;
+
+                    endif;
+                else:
+
+                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
+
+                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+
+
+
+                    else:
+
+                        echo 0;
+
+                    endif;
+
+                endif;
+
+            else:
+
+                echo 0;
+
+            endif;
+
+        else:
+
+            echo 0;
+
+
+
+
+        endif;
+    }
     public function dar_lance(){
+
+        date_default_timezone_set('America/Belem');
+
         if($this->ModelDefault->session() == false):
 
             $arr['mensagem'] = 'E necessario estar Logado';
@@ -240,6 +281,24 @@ class AjaxDefault extends CI_Controller
 
                                 else:
 
+                                    if(!empty($lote['data_acrescimo'])):
+                                        $datafimse = $lote['data_acrescimo'];
+
+                                    else:
+
+                                        $datafimse = $lote['data_fim'];
+
+                                    endif;
+
+                                    if((( date('YmdHis',strtotime($datafimse)) - date('YmdHis')) - 40) <= 30):
+                                        $dppm['data_acrescimo'] =  date("Y-m-d H:i:s", strtotime(date('c'). " + 30 seconds"));
+                                        $this->db->where('id',$_POST['lote']);
+                                        $this->db->update('lotes',$dppm);
+                                    endif;
+
+
+
+
 
                                     $lance = str_replace('.','/',$_POST['lance']);
                                     $lance = str_replace(',','',$lance);
@@ -259,25 +318,14 @@ class AjaxDefault extends CI_Controller
                                                     exit();
 
                                                 endif;
-                                                if(!empty($lote['data_acrescimo'])):
-                                                    $diferenca = (str_replace('-','',date('YmdHis') - date('YmdHis',strtotime($lote['data_acrescimo']))) / 2);
-                                                    $acres = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " + 30 seconds"));
-                                                else:
-                                                    $diferenca = (str_replace('-','',date('YmdHis') - date('YmdHis',strtotime($lote['data_fim']))) / 2);
-                                                    $acres = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " + 30 seconds"));
 
-                                                endif;
 
-                                                $diferenca = str_replace('-','',$diferenca);
+
+
                                                 $dbs['data_lance'] = date('d/m/Y H:i');
                                                 $dbs['lance_atual'] = $lance;
                                                 $dbs['nickname'] = $_SESSION['NICKNAME'];
                                                 $dbs['arrematante'] = $_SESSION['ID'];
-                                                if($diferenca <= 30):
-                                                    $dbs['acrescimo'] = 1;
-                                                    $dbs['data_acrescimo'] = $acres;
-                                                    $this->ModelDefault->acrescimoLotes($lote['leiloes'],$_POST['lote']);
-                                                endif;
                                                 $this->db->where('id',$_POST['lote']);
                                                 $this->db->update('lotes',$dbs);
 
@@ -299,26 +347,12 @@ class AjaxDefault extends CI_Controller
                                             endif;
 
                                         else:
-                                            if(!empty($lote['data_acrescimo'])):
-                                                $diferenca = (str_replace('-','',date('YmdHis') - date('YmdHis',strtotime($lote['data_acrescimo']))) / 2);
-                                                $acres = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " + 30 seconds"));
-                                            else:
-                                                $diferenca = (str_replace('-','',date('YmdHis') - date('YmdHis',strtotime($lote['data_fim']))) / 2);
-                                                $acres = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . " + 30 seconds"));
 
-                                            endif;
 
-                                            $diferenca = str_replace('-','',$diferenca);
                                             $dbs['data_lance'] = date('d/m/Y H:i');
                                             $dbs['lance_atual'] = $lance;
                                             $dbs['nickname'] = $_SESSION['NICKNAME'];
                                             $dbs['arrematante'] = $_SESSION['ID'];
-                                            if($diferenca <= 30):
-                                                $dbs['acrescimo'] = 1;
-                                                $dbs['data_acrescimo'] = $acres;
-                                                $this->ModelDefault->acrescimoLotes($lote['leiloes'],$_POST['lote']);
-
-                                            endif;
                                             $this->db->where('id',$_POST['lote']);
                                             $this->db->update('lotes',$dbs);
 
@@ -429,63 +463,6 @@ class AjaxDefault extends CI_Controller
 
     }
 
-    public function homologar_lote(){
-
-
-
-            $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
-            $this->db->from('lotes');
-            $this->db->where('id',$_POST['lote']);
-            $get = $this->db->get();
-
-            $count = $get->num_rows();
-
-            if($count > 0):
-                $lote = $get->result_array()[0];
-            if($lote['stats'] == 0):
-
-                if(empty($lote['data_acrescimo'])):
-                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
-
-                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
-
-
-                    else:
-
-                        echo 0;
-
-                    endif;
-                    else:
-
-                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
-
-                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
-
-
-
-                        else:
-
-                        echo 0;
-
-                    endif;
-
-                endif;
-
-                else:
-
-                echo 0;
-
-            endif;
-
-            else:
-
-            echo 0;
-
-
-
-
-        endif;
-        }
 
     //Funções de Acesso
     public function cadastro()
