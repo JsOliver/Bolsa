@@ -74,6 +74,9 @@
         {
             animation: shadow-pulse 1s infinite;
         }
+        .bannerV4 .fullscreenbanner{
+            height: 280px!important;
+        }
 
     </style>
     <?php endif; ?>
@@ -321,8 +324,7 @@ if(empty($url)):
         <!-- NAVBAR -->
         <nav class="navbar navbar-main navbar-default navbar-expand-md nav-V3" role="navigation">
             <div class="container">
-                <?php if(isset($banners) and count($banners) > 0):?>
-
+                <!--
                 <div class="nav-category dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Categorias
@@ -349,8 +351,7 @@ if(empty($url)):
                         <?php endif;?>
                     </ul>
                 </div>
-
-                <?php endif;?>
+-->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse" aria-controls="navbar-ex1-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa fa-bars"></span>
                 </button>
@@ -385,26 +386,27 @@ if(empty($url)):
         </nav>
 
     </div>
-<?php if(isset($banners) and count($banners) > 0):?>
-    <div class="container">
-        <div class="row justify-content-md-end">
-            <div class="col-sm-12 ml-auto bannercontainer ">
-                <div class="fullscreenbanner-container bannerV4">
-                    <div class="fullscreenbanner">
-                        <ul>
+    <?php if(isset($banners) and count($banners) > 0):?>
+        <div class="container" >
+            <div class="row justify-content-md-end">
+                <div class="col-sm-12 ml-auto bannercontainer " >
+                    <div class="bannerV4" style="width: 100%!important;">
+                        <div class="fullscreenbanner">
+                            <ul>
 
-<?php foreach ($banners as $item) { ?>
-                            <li data-transition="slidehorizontal" data-slotamount="5" data-masterspeed="700" data-title="Slide 1">
-                                <img src="<?php echo base_url('web/imagens/'.$item['image']);?>" style="height: 100px!important;" alt="slidebg1" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">
+                                <?php foreach ($banners as $item) { ?>
+                                    <li data-transition="slidehorizontal" data-slotamount="5" data-masterspeed="700" data-title="<?php echo $item['nome'];?>" >
+                                        <img src="<?php echo base_url('web/imagens/'.$item['image']);?>" style="height: 100px!important;" alt="slidebg1" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat">
 
-                            </li>
-<?php }?>
-                        </ul>
+                                    </li>
+                                <?php }?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="clearfix"></div><br><br><br>
 
     <?php else:?>
         <br>
