@@ -63,3 +63,4 @@
 </div>
 
 
+<?php $this->ModelDefault->situacao_leilao_verifica($item['id']);?>

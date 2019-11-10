@@ -259,7 +259,7 @@ function loadpagerequest(acao) {
 function newPostTable(acao, tabela, tipo, edit) {
 
     if (tipo) {
-        $('.modal').modal({backdrop: 'static', keyboard: false});
+        $('#modalnewnew').modal({backdrop: 'static', keyboard: false});
 
         $.ajax({
             url: DIR + 'Ajax/formFilds',
@@ -293,7 +293,7 @@ function newPostTable(acao, tabela, tipo, edit) {
 
     } else {
 
-        $('.modal').modal({backdrop: 'static', keyboard: false});
+        $('#modalnewnew').modal({backdrop: 'static', keyboard: false});
 
         if (edit) {
             $.ajax({

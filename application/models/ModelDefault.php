@@ -15,6 +15,30 @@ class ModelDefault extends CI_Model
     }
 
 
+    public function situacao_leilao_verifica($leilao){
+
+
+        $this->db->select('id');
+        $this->db->from('lotes');
+        $this->db->where('leiloes',$leilao);
+        $get = $this->db->get();
+        $countodos = $get->num_rows();
+
+
+        $this->db->select('id');
+        $this->db->from('lotes');
+        $this->db->where('leiloes',$leilao);
+        $this->db->where('stats',0);
+        $get = $this->db->get();
+        $count = $get->num_rows();
+        if($count == 0 and $countodos > 0):
+        $arr['finalizado'] = 1;
+            $this->db->where('id',$leilao);
+            $this->db->update('leiloes',$arr);
+        endif;
+    }
+
+
     public function limita_caracteres($texto, $limite, $quebra = true){
         $tamanho = strlen($texto);
         if($tamanho <= $limite){ //Verifica se o tamanho do texto é menor ou igual ao limite
