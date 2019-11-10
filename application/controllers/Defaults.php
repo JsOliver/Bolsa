@@ -691,7 +691,7 @@ class Defaults extends CI_Controller
 
             if($countlote == 0):
 
-                echo 'Pagina não encontrada';
+               echo '<script>window.location.href="'.base_url().'";</script>';
                 exit();
 
             endif;

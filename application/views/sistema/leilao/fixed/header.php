@@ -113,6 +113,13 @@ function checkstimelocal(){
 
 
             function checktime(){
+                if(contagem <= '0010'){
+                    $("#clock").css('color','red');
+                }else{
+                    $("#clock").css('color','black');
+
+                }
+
                 if(contagem === '0000'){
 
                     $("#lancevalues").val('');
@@ -167,6 +174,45 @@ function checkstimelocal(){
 
 
 
+                                        $.ajax({
+                                            url: DIR+'AjaxDefault/proximo_lote',
+                                            data: {lote:<?php echo $lote['id']?>},
+                                            type: 'POST',
+                                            error: function (res) {
+                                                $("#clock").html("<a href='<?php echo base_url('lote-leilao/'.($lote['id'] + 1));?>'><i class='fa fa-2x fa-check-circle text-success'></i> Proximo Lote</a>");
+
+                                            },
+                                            success: function (data) {
+                                                var duce =  jQuery.parseJSON(data);
+
+                                                if(duce.finalizado == 0){
+                                                    $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Tentando Finalizar");
+
+                                                    timeout = setTimeout(function () { // quando o timer for disparado...
+                                                        timeout = false; // ... apagamos sua referência ...
+
+                                                        window.location.href="<?php echo base_url('lote-leilao/'.$lote['id'].'?proximo=true')?>";
+                                                    }, 4000);
+
+                                                }
+
+
+                                                if(duce.finalizado == 1) {
+
+                                                    window.location.href="<?php echo base_url('lote-leilao/')?>"+duce.loteid;
+
+                                                }
+
+
+
+                                            }
+
+
+
+                                        });
+
+
+
                                     }, 2000);
 
 
@@ -206,6 +252,13 @@ function checkstimelocal(){
                 atualizar_lote(0,idlote,1);
                 checktime();
                 checkstimelocal();
+                <?php endif;?>
+
+
+                <?php if(isset($_GET['proximo']) and $_GET['proximo'] == 'true'):?>
+
+
+
                 <?php endif;?>
             });
         </script>

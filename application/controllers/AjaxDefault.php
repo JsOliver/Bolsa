@@ -367,6 +367,8 @@ class AjaxDefault extends CI_Controller
                                             $this->db->insert('lances_lote',$dpsp);
 
                                         endif;
+
+
                                     else:
 
                                         $arr['mensagem'] = 'Lance tem que ser maior que o lance inicial';
@@ -463,6 +465,32 @@ class AjaxDefault extends CI_Controller
 
     }
 
+
+    public function proximo_lote(){
+
+        $this->db->select('id,stats');
+        $this->db->from('lotes');
+        $this->db->where('id', $_POST['lote']);
+        $get = $this->db->get();
+        $count = $get->num_rows();
+        if ($count > 0):
+
+        $result = $get->result_array()[0];
+
+
+        if($result['stats'] == 0):
+
+            $arr['finalizado'] = 0;
+
+        else:
+            $arr['finalizado'] = 1;
+            $arr['loteid'] = ($_POST['lote'] + 1);
+        endif;
+
+
+        echo json_encode($arr);
+endif;
+    }
 
     //Funções de Acesso
     public function cadastro()

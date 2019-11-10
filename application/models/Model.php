@@ -94,7 +94,7 @@ endif;
             $this->db->where('status',1);
             $get = $this->db->get();
             $lote = $get->result_array()[0];
-
+/*
 
             if(empty($lote['data_acrescimo'])):
                 if(date('Y-m-d H:i') > date('Y-m-d H:i',strtotime($lote['data_fim'])) and isset($post['data_fim'])):
@@ -112,7 +112,7 @@ endif;
                     endif;
             endif;
 
-
+*/
 
         endif;
 

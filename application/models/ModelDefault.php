@@ -35,6 +35,7 @@ class ModelDefault extends CI_Model
         $arr['finalizado'] = 1;
             $this->db->where('id',$leilao);
             $this->db->update('leiloes',$arr);
+
         endif;
     }
 
