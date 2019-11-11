@@ -173,10 +173,14 @@
 
                                 <?php if($lote['stats'] == 0):?>
                                 <h5 style="margin-top: 25px;">Leilão Encerra em:</h5>
-                                <p style="font-size: 18px;height: 5px;" id="clock">00:00:00</p>
-                                <br>
-                                <h5>Lance Atual</h5>
+                                <div id="hoverdrop2"></div>
+                                    <div id="hoverdrop">
 
+                                <p style="font-size: 18px;height: 5px;" id="clock">00:00:00</p>
+                                                                      </div>
+
+                                    <br>
+                                <h5>Lance Atual</h5>
                                 <?php elseif($lote['stats'] == 3):?>
                                     <h5 style="margin-top: 25px;">Leilão Arrematado:</h5>
 

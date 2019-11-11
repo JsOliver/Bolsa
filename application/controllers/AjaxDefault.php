@@ -183,8 +183,22 @@ class AjaxDefault extends CI_Controller
 
 
     public function homologar_lote(){
+        date_default_timezone_set('America/Belem');
 
+        $this->db->select('id,stats');
+        $this->db->from('lotes');
+        $this->db->where('leiloes',$_POST['leiloes']);
+        $this->db->where('id <',$_POST['lote']);
+        $this->db->where('stats',0);
+        $get = $this->db->get();
+        $countanterior = $get->num_rows();
 
+        if($countanterior > 0):
+            $dadosups['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
+            $this->db->where('id',$_POST['lote']);
+            $this->db->update('lotes',$dadosups);
+echo 11;
+            else:
 
         $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
         $this->db->from('lotes');
@@ -237,6 +251,7 @@ class AjaxDefault extends CI_Controller
 
 
 
+        endif;
         endif;
     }
     public function dar_lance(){
@@ -421,7 +436,7 @@ class AjaxDefault extends CI_Controller
 
     public function verificar_cronometro(){
 
-        $this->db->select('nickname,data_lance,lance_atual,data_acrescimo');
+        $this->db->select('nickname,data_lance,lance_atual,data_acrescimo,leiloes');
         $this->db->from('lotes');
         $this->db->where('id', $_POST['lote']);
         $get = $this->db->get();
@@ -429,9 +444,35 @@ class AjaxDefault extends CI_Controller
             $result = $get->result_array()[0];
 
 
-            if(!empty($result['data_acrescimo'])):
 
+            $this->db->select('id');
+            $this->db->from('lotes');
+            $this->db->where('leiloes', $result['leiloes']);
+            $this->db->where('stats >', 0);
+            $get = $this->db->get();
+            $count_vers = $get->num_rows();
+            if($count_vers > 0):
+
+                $this->db->select('id');
+                $this->db->from('lotes');
+                $this->db->where('leiloes', $result['leiloes']);
+                $this->db->where('stats >', 0);
+                $this->db->where('id', ($_POST['lote'] - 1));
+                $get = $this->db->get();
+                $count_vers2 = $get->num_rows();
+                if($count_vers2 > 0):
+                    $_SESSION['cronos'] = 0;
+
+                else:
+                    $arr['cronometro'] = 1574002;
+                    $_SESSION['cronos'] = 1;
+                endif;
+
+            endif;
+
+            if(!empty($result['data_acrescimo']) and $_SESSION['cronos'] == 1):
                 $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
+
 
             endif;
 

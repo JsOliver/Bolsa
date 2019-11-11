@@ -136,10 +136,10 @@ function reload() {
     });
 }
 
-function view(tipo, campo) {
+function view(tipo, campo,edit) {
     $.ajax({
         url: DIR + 'Ajax/NavegacaoView',
-        data: {tipo: tipo, campo: campo},
+        data: {tipo: tipo, campo: campo,edit:edit},
         type: 'POST',
         beforeSend: function () {
             loadpagerequest(1);
@@ -228,24 +228,6 @@ function logout_empresa() {
 
 }
 
-
-function remover_imagem(id,tabela,campo) {
-    $.ajax({
-        url: DIR+'Ajax/remover_imagem',
-        data: {id:id,tabela:tabela,campo:campo},
-        type: 'POST',
-        beforeSend: function () {
-        },
-        error: function (res) {
-        },
-        success: function (data) {
-            $('.modal').hide();
-            $('.modal-backdrop').removeClass('modal-backdrop');
-        }
-    });
-}
-
-
 function loadpagerequest(acao) {
     if (acao == 1) {
         $('body').css('opacity', '0.5');
@@ -278,7 +260,7 @@ function newPostTable(acao, tabela, tipo, edit) {
                     if (data == 'reload_action') {
                         window.location.reload();
                     } else {
-                        $('.modal .modal-body').html(data);
+                        $('#modalnewnew .modal-body').html(data);
                     }
 
                 } else {
@@ -313,7 +295,7 @@ function newPostTable(acao, tabela, tipo, edit) {
                         if (data == 'reload_action') {
                             window.location.reload();
                         } else {
-                            $('.modal .modal-body').html(data);
+                            $('#modalnewnew .modal-body').html(data);
                         }
 
                     } else {
@@ -343,7 +325,7 @@ function newPostTable(acao, tabela, tipo, edit) {
                         if (data == 'reload_action') {
                             window.location.reload();
                         } else {
-                            $('.modal .modal-body').html(data);
+                            $('#modalnewnew .modal-body').html(data);
                         }
 
                     } else {
@@ -369,7 +351,7 @@ function editar_item(action, tabela, id) {
 
 function saveForm(table) {
 
-    var form = $('form').serialize();
+    var form = $('#modalnewnew form').serialize();
 
     $.ajax({
         url: DIR + 'Ajax/ProcessarForm',
@@ -387,7 +369,9 @@ function saveForm(table) {
 
                 if (data == 11) {
                     $('.modal').modal('hide');
-                    view(1, table);
+                    if(table != 49){
+                        view(1, table,0);
+                    }
                 } else {
                     alert(data);
 
@@ -507,6 +491,46 @@ function chagestatus(arrdata, id, table) {
 
 }
 
+function chagevalidado(arrdata, id, table) {
+
+    var status = arrdata.value;
+    $.ajax({
+        url: DIR + 'Ajax/chagevalidado',
+        data: {table: table, item: id, validado: status},
+        type: 'POST',
+
+        error: function (res) {
+
+            alert('Erro ao Carregar o Conteudo');
+
+        },
+        success: function (data) {
+
+            if (data) {
+
+                var tables = $('#demo-dt-addrow').DataTable();
+
+
+                if (data == 11) {
+
+                } else {
+                    alert(data);
+
+                }
+
+            } else {
+
+                alert('Erro ao Carregar e Exibir o Conteudo');
+
+            }
+
+
+        }
+    });
+
+
+}
+
 function enviarimage(identificador) {
 
 
@@ -521,15 +545,15 @@ function enviarimage(identificador) {
         contentType: false,
         processData: false,
         success: function(response){
-        if(response != 0){
+            if(response != 0){
 
-            $(".preview").html('<input type="hidden" name="'+identificador+'" value="'+response+'">');
+                $(".preview").html('<input type="hidden" name="'+identificador+'" value="'+response+'">');
 
-        }else{
-            alert('file not uploaded');
-        }
-    },
-});
+            }else{
+                alert('file not uploaded');
+            }
+        },
+    });
 }
 
 function salvePerfilEmpresa() {

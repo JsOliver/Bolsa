@@ -65,7 +65,7 @@ class Ajax extends CI_Controller
     public function uploadImage()
     {
 
-        $extensao = pathinfo($_FILES['file']['name']);
+        $extensao = @pathinfo($_FILES['file']['name']);
         $extensao = ".".$extensao['extension'];
         $imagem = time().rand().$extensao;
         $filename = $imagem;

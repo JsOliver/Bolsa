@@ -134,7 +134,7 @@ function checkstimelocal(){
 
                         $.ajax({
                             url:'<?php echo base_url('')?>/AjaxDefault/homologar_lote',
-                            data: {lote: <?php echo $lote['id']?>},
+                            data: {lote: <?php echo $lote['id']?>,leiloes:<?php echo $lote['leiloes']?>},
                             type: 'POST',
                             beforeSend: function () {
 
@@ -186,7 +186,7 @@ function checkstimelocal(){
                                                 var duce =  jQuery.parseJSON(data);
 
                                                 if(duce.finalizado == 0){
-                                                    $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Tentando Finalizar");
+                                                    $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Aguarde...");
 
                                                     timeout = setTimeout(function () { // quando o timer for disparado...
                                                         timeout = false; // ... apagamos sua referência ...

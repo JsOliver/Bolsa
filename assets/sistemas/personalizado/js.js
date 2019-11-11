@@ -1329,11 +1329,7 @@ function iniciarcronometroauditorio(variavel,id) {
 
 function atualizar_lote(metodo,lote,setTime) {
 
-    if(metodo == 1){
 
-
-    }
-    else{
 
 
         $.ajax({
@@ -1346,13 +1342,24 @@ function atualizar_lote(metodo,lote,setTime) {
 
             },
             success: function (data) {
+
+
                 var duce =  jQuery.parseJSON(data);
 
-                if(duce.cronometro){
+
+                if(duce.cronometro && duce.cronometro !== 1574002){
                     iniciarcronometro(duce.cronometro);
                 }
+                if(duce.cronometro == 1574002) {
+                $("#hoverdrop").css('display','none');
+                $("#hoverdrop2").html('<b id="textescrits">Aguardando Lotes Anteriores Encerrarem</b>');
 
-                if(duce.lance_atual){
+                }else{
+                    $("#hoverdrop").css('display','block');
+                    $("#textescrits").remove();
+
+                }
+                    if(duce.lance_atual){
                     $("#lance_atual").text(duce.lance_atual);
                 }
 
@@ -1370,7 +1377,7 @@ function atualizar_lote(metodo,lote,setTime) {
 
         });
 
-    }
+
 
 
 
