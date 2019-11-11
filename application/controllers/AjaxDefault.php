@@ -214,6 +214,10 @@ echo 11;
                 if(empty($lote['data_acrescimo'])):
                     if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
 
+
+                        $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
+                        $this->db->where('id',($_POST['lote'] +1));
+                        $this->db->update('lotes',$dadosupsnx);
                         echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
 
 
@@ -225,7 +229,9 @@ echo 11;
                 else:
 
                     if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
-
+                        $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
+                        $this->db->where('id',($_POST['lote'] +1));
+                        $this->db->update('lotes',$dadosupsnx);
                         echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
 
 
@@ -461,20 +467,25 @@ echo 11;
                 $get = $this->db->get();
                 $count_vers2 = $get->num_rows();
                 if($count_vers2 > 0):
-                    $_SESSION['cronos'] = 0;
+                    if(!empty($result['data_acrescimo'])):
+                          $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
+
+
+                    endif;
 
                 else:
                     $arr['cronometro'] = 1574002;
-                    $_SESSION['cronos'] = 1;
                 endif;
 
+
+                else:
+                    if(!empty($result['data_acrescimo'])):
+                        $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
+
+
+                    endif;
             endif;
 
-            if(!empty($result['data_acrescimo']) and $_SESSION['cronos'] == 1):
-                $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
-
-
-            endif;
 
             if(!empty($result['data_lance'])):
 

@@ -1583,8 +1583,8 @@ endif;
             $this->db->from('leiloes');
             $this->db->where('id', $valor);
             $get = $this->db->get();
-            $response = $get->result_array()[0];
-            $valor = $response['nome'];
+            $response = @$get->result_array()[0];
+            $valor = @$response['nome'];
         endif;
 
         if ($campo == 'visualizado'):
