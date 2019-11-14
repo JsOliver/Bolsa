@@ -183,81 +183,95 @@ class AjaxDefault extends CI_Controller
 
 
     public function homologar_lote(){
+
+        if(isset($_GET['leiloes']) and isset($_GET['lote'])):
+            $_POST['leiloes'] = $_GET['leiloes'];
+            $_POST['lote'] = $_GET['lote'];
+        endif;
         date_default_timezone_set('America/Belem');
 
-        $this->db->select('id,stats');
+        $this->db->select('id,stats,data_fim');
         $this->db->from('lotes');
         $this->db->where('leiloes',$_POST['leiloes']);
         $this->db->where('id <',$_POST['lote']);
         $this->db->where('stats',0);
         $get = $this->db->get();
         $countanterior = $get->num_rows();
-
+        $resultay = $get->result_array()[0];
         if($countanterior > 0):
             $dadosups['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
             $this->db->where('id',$_POST['lote']);
             $this->db->update('lotes',$dadosups);
-echo 11;
-            else:
+            echo 11;
+        else:
 
-        $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
-        $this->db->from('lotes');
-        $this->db->where('id',$_POST['lote']);
-        $get = $this->db->get();
+            $this->db->select('id,stats,data_fim,data_acrescimo,lance_min,lance_atual,leiloes');
+            $this->db->from('lotes');
+            $this->db->where('id',$_POST['lote']);
+            $get = $this->db->get();
 
-        $count = $get->num_rows();
+            $count = $get->num_rows();
 
-        if($count > 0):
-            $lote = $get->result_array()[0];
-            if($lote['stats'] == 0):
+            if($count > 0):
+                $lote = $get->result_array()[0];
+                if($lote['stats'] == 0):
 
-                if(empty($lote['data_acrescimo'])):
-                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
+                    if(empty($lote['data_acrescimo'])):
+                        if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
+
+                            if($countanterior == 0):
+                                $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
+                                $this->db->where('id',($lote['id'] + 1));
+                                $this->db->update('lotes',$dadosupsnx);
+                                echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+                            else:
+
+                                echo 11;
+
+                            endif;
 
 
-                        $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
-                        $this->db->where('id',($_POST['lote'] +1));
-                        $this->db->update('lotes',$dadosupsnx);
-                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+                        else:
 
+                            echo 11;
 
+                        endif;
                     else:
+                        if($countanterior == 0):
 
-                        echo 0;
+                            if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
+                                $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
+                                $this->db->where('id',($lote['id'] + 1));
+                                $this->db->update('lotes',$dadosupsnx);
+                                echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
+
+                            else:
+
+                                echo 11;
+
+                            endif;
+
+                        else:
+
+                            echo 11;
+
+                        endif;
 
                     endif;
+
                 else:
 
-                    if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
-                        $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));
-                        $this->db->where('id',($_POST['lote'] +1));
-                        $this->db->update('lotes',$dadosupsnx);
-                        echo $this->ModelDefault->terminoLote($lote['id'],$lote['leiloes']);
-
-
-
-                    else:
-
-                        echo 0;
-
-                    endif;
-
+                    echo $lote['stats'];
                 endif;
 
             else:
 
                 echo 0;
 
+
+
+
             endif;
-
-        else:
-
-            echo 0;
-
-
-
-
-        endif;
         endif;
     }
     public function dar_lance(){
@@ -311,11 +325,6 @@ echo 11;
 
                                     endif;
 
-                                    if((( date('YmdHis',strtotime($datafimse)) - date('YmdHis')) - 40) <= 30):
-                                        $dppm['data_acrescimo'] =  date("Y-m-d H:i:s", strtotime(date('c'). " + 30 seconds"));
-                                        $this->db->where('id',$_POST['lote']);
-                                        $this->db->update('lotes',$dppm);
-                                    endif;
 
 
 
@@ -342,6 +351,11 @@ echo 11;
 
 
 
+                                                if((( date('YmdHis',strtotime($datafimse)) - date('YmdHis')) - 40) <= 30):
+                                                    $dppm['data_acrescimo'] =  date("Y-m-d H:i:s", strtotime(date('c'). " + 30 seconds"));
+                                                    $this->db->where('id',$_POST['lote']);
+                                                    $this->db->update('lotes',$dppm);
+                                                endif;
 
                                                 $dbs['data_lance'] = date('d/m/Y H:i');
                                                 $dbs['lance_atual'] = $lance;
@@ -369,6 +383,12 @@ echo 11;
 
                                         else:
 
+
+                                            if((( date('YmdHis',strtotime($datafimse)) - date('YmdHis')) - 40) <= 30):
+                                                $dppm['data_acrescimo'] =  date("Y-m-d H:i:s", strtotime(date('c'). " + 30 seconds"));
+                                                $this->db->where('id',$_POST['lote']);
+                                                $this->db->update('lotes',$dppm);
+                                            endif;
 
                                             $dbs['data_lance'] = date('d/m/Y H:i');
                                             $dbs['lance_atual'] = $lance;
@@ -441,8 +461,8 @@ echo 11;
     }
 
     public function verificar_cronometro(){
-
-        $this->db->select('nickname,data_lance,lance_atual,data_acrescimo,leiloes');
+        $count_vers2 = 0;
+        $this->db->select('nickname,data_lance,lance_atual,data_acrescimo,leiloes,data_fim,stats,nlote');
         $this->db->from('lotes');
         $this->db->where('id', $_POST['lote']);
         $get = $this->db->get();
@@ -459,7 +479,7 @@ echo 11;
             $count_vers = $get->num_rows();
             if($count_vers > 0):
 
-                $this->db->select('id');
+                $this->db->select('id,stats');
                 $this->db->from('lotes');
                 $this->db->where('leiloes', $result['leiloes']);
                 $this->db->where('stats >', 0);
@@ -467,31 +487,44 @@ echo 11;
                 $get = $this->db->get();
                 $count_vers2 = $get->num_rows();
                 if($count_vers2 > 0):
-                    if(!empty($result['data_acrescimo'])):
-                          $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
-
-
-                    endif;
-
-                else:
-                    $arr['cronometro'] = 1574002;
-                endif;
-
-
-                else:
-                    if(!empty($result['data_acrescimo'])):
+                    if(!empty($result['data_acrescimo']) and $result['stats'] == 0):
                         $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
 
 
                     endif;
-            endif;
 
+                else:
+
+
+
+                    $arr['cronometro'] = 1574002;
+
+                endif;
+
+
+            else:
+                if(!empty($result['data_acrescimo']) and $result['stats'] == 0):
+                    $arr['cronometro'] = date('Y-m-d H:i:s',strtotime($result['data_acrescimo'].' + 1 hour'));
+
+
+                endif;
+            endif;
+            if($result['stats'] > 0):
+                $arr['cronometro'] = 15271057;
+
+            endif;
 
             if(!empty($result['data_lance'])):
 
                 $arr['data_lance'] = $result['data_lance'];
 
             endif;
+
+
+            if($result['nlote'] > 1 and $count_vers2 == 0 and date('Y-m-d',strtotime($result['data_fim'])) == date('Y-m-d')):
+                $arr['cronometro'] = 1574002;
+            endif;
+
 
             if(!empty($result['nickname'])):
 
@@ -527,21 +560,21 @@ echo 11;
         $count = $get->num_rows();
         if ($count > 0):
 
-        $result = $get->result_array()[0];
+            $result = $get->result_array()[0];
 
 
-        if($result['stats'] == 0):
+            if($result['stats'] == 0):
 
-            $arr['finalizado'] = 0;
+                $arr['finalizado'] = 0;
 
-        else:
-            $arr['finalizado'] = 1;
-            $arr['loteid'] = ($_POST['lote'] + 1);
+            else:
+                $arr['finalizado'] = 1;
+                $arr['loteid'] = ($_POST['lote'] + 1);
+            endif;
+
+
+            echo json_encode($arr);
         endif;
-
-
-        echo json_encode($arr);
-endif;
     }
 
     //Funções de Acesso

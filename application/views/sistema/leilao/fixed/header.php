@@ -59,57 +59,59 @@
     <script>var DIR = '<?php echo base_url();?>';</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.0/moment-timezone-with-data-2010-2020.min.js"></script>
     <script src="<?php echo base_url('assets/sistemas/personalizado/');?>js.js"></script>
-        <?php if(isset($_GET['enviar_docs'])): ?>
-    <style>
-        @keyframes shadow-pulse
-        {
-            0% {
-                box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
-            }
-            100% {
-                box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-            }
-        }
-        .example-1
-        {
-            animation: shadow-pulse 1s infinite;
-        }
-        .bannerV4 .fullscreenbanner{
-            height: 280px!important;
-        }
 
-    </style>
+    <?php if(isset($_GET['enviar_docs'])): ?>
+        <style>
+            @keyframes shadow-pulse
+            {
+                0% {
+                    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+                }
+                100% {
+                    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+                }
+            }
+            .example-1
+            {
+                animation: shadow-pulse 1s infinite;
+            }
+            .bannerV4 .fullscreenbanner{
+                height: 280px!important;
+            }
+
+        </style>
     <?php endif; ?>
     <?php if(isset($page) and $page == 'lote' and $lote['stats'] == 0):?>
         <script>
 
-             // Obtém a data/hora atual
-        var data = new Date();
 
-        // Guarda cada pedaço em uma variável
-        var dia     = data.getDate();           // 1-31
-        var dia_sem = data.getDay();            // 0-6 (zero=domingo)
-        var mes     = data.getMonth();          // 0-11 (zero=janeiro)
-        var ano2    = data.getYear();           // 2 dígitos
-        var ano4    = data.getFullYear();       // 4 dígitos
-        var hora    = data.getHours();          // 0-23
-        var min     = data.getMinutes();        // 0-59
-        var seg     = data.getSeconds();        // 0-59
-        var mseg    = data.getMilliseconds();   // 0-999
-        var tz      = data.getTimezoneOffset(); // em minutos
+            // Obtém a data/hora atual
+            var data = new Date();
 
-        // Formata a data e a hora (note o mês + 1)
-        var str_data = dia + '/' + (mes+1) + '/' + ano4;
-        var str_hora = hora + ':' + min + ':' + seg;
+            // Guarda cada pedaço em uma variável
+            var dia     = data.getDate();           // 1-31
+            var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+            var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+            var ano2    = data.getYear();           // 2 dígitos
+            var ano4    = data.getFullYear();       // 4 dígitos
+            var hora    = data.getHours();          // 0-23
+            var min     = data.getMinutes();        // 0-59
+            var seg     = data.getSeconds();        // 0-59
+            var mseg    = data.getMilliseconds();   // 0-999
+            var tz      = data.getTimezoneOffset(); // em minutos
 
-
-function checkstimelocal(){
+            // Formata a data e a hora (note o mês + 1)
+            var str_data = dia + '/' + (mes+1) + '/' + ano4;
+            var str_hora = hora + ':' + min + ':' + seg;
 
 
-                               
+            function checkstimelocal(){
 
 
-}
+
+
+
+            }
 
 
             function checktime(){
@@ -117,7 +119,14 @@ function checkstimelocal(){
                     $("#clock").css('color','red');
                 }else{
                     $("#clock").css('color','black');
+                    $("#blocksdisplays").css("display","none");
 
+                }
+
+                if(contagem === '0002') {
+                    $("#blocksdisplays").css("display","block");
+                    $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Aguarde...");
+                    $('input').val('');
                 }
 
                 if(contagem === '0000'){
@@ -129,6 +138,7 @@ function checkstimelocal(){
                     if(contagem === '0000') {
 
                         $("#blocksdisplays").css("display","block");
+                        $('input').val('');
 
                         $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:50px;'> Registrando");
 
@@ -150,6 +160,7 @@ function checkstimelocal(){
                                     timeout = false; // ... apagamos sua referência ...
                                     $("#clock").html("<i class='fa fa-2x fa-times text-danger'></i> Erro");
 
+                                    checktime();
                                 }, 2000);
 
 
@@ -164,13 +175,20 @@ function checkstimelocal(){
                                     timeout = setTimeout(function () { // quando o timer for disparado...
                                         timeout = false; // ... apagamos sua referência ...
                                         $("#clock").html("<i class='fa fa-2x fa-times text-danger'></i> Erro");
-
+                                        timeout = setTimeout(function () { // quando o timer for disparado...
+                                            timeout = false; // ... apagamos sua referência ...
+                                            checktime();
+                                        }, 2000);
                                     }, 2000);
+
+
+
+
                                 }else{
 
                                     timeout = setTimeout(function () { // quando o timer for disparado...
                                         timeout = false; // ... apagamos sua referência ...
-                                        $("#clock").html("<i class='fa fa-2x fa-check-circle text-success'></i> Sucesso");
+                                        // $("#clock").html("<i class='fa fa-2x fa-check-circle text-success'></i> Sucesso");
 
 
 
@@ -180,7 +198,7 @@ function checkstimelocal(){
                                             type: 'POST',
                                             error: function (res) {
                                                 $("#clock").html("<a href='<?php echo base_url('lote-leilao/'.($lote['id'] + 1));?>'><i class='fa fa-2x fa-check-circle text-success'></i> Proximo Lote</a>");
-
+                                                checktime();
                                             },
                                             success: function (data) {
                                                 var duce =  jQuery.parseJSON(data);
@@ -191,7 +209,9 @@ function checkstimelocal(){
                                                     timeout = setTimeout(function () { // quando o timer for disparado...
                                                         timeout = false; // ... apagamos sua referência ...
 
-                                                        window.location.href="<?php echo base_url('lote-leilao/'.$lote['id'].'?proximo=true')?>";
+                                                        checktime();
+                                                        $("#blocksdisplays").css("display","none");
+
                                                     }, 4000);
 
                                                 }
@@ -241,7 +261,7 @@ function checkstimelocal(){
             }
         </script>
 
-        <?php if(date('d/m/Y') == date('d/m/Y',strtotime($lote['data_fim']))): ?>
+    <?php if(date('d/m/Y') == date('d/m/Y',strtotime($lote['data_fim']))): ?>
         <script>
             $(document).ready(function() {
 
@@ -264,6 +284,11 @@ function checkstimelocal(){
         </script>
     <?php else:?>
         <script>
+
+
+
+
+
             $(document).ready(function() {
 
                 var nextYear = moment.tz(datadoserver, "America/Sao_Paulo");
@@ -287,28 +312,28 @@ function checkstimelocal(){
 $url = $this->uri->segment(1);
 
 if(empty($url)):
-?>
-<!--
-<div id="preloader" class="smooth-loader-wrapper">
-    <div class="preloader_container">
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-    </div>
-</div>-->
+    ?>
+    <!--
+    <div id="preloader" class="smooth-loader-wrapper">
+        <div class="preloader_container">
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+            <div class="block"></div>
+        </div>
+    </div>-->
 <?php endif;?>
 <div class="main-wrapper">
 
@@ -327,9 +352,9 @@ if(empty($url)):
                     <div class="col-md-6 col-12">
                         <ul class="list-inline float-right top-right">
                             <?php if ($this->ModelDefault->session() == false):?>
-                            <li class="account-login"><span><a data-toggle="modal" href='#login'>Entrar</a><small>ou</small><a data-toggle="modal" href='#signups'>Cadastre-se</a></span></li>
+                                <li class="account-login"><span><a data-toggle="modal" href='#login'>Entrar</a><small>ou</small><a data-toggle="modal" href='#signups'>Cadastre-se</a></span></li>
                             <?php else:?>
-                             <li class="account-login"><span><a href='<?php echo base_url('minha-conta');?>'>Minha Conta</a><small>ou</small><a href="javascript:logout();">Logout</a></span></li>
+                                <li class="account-login"><span><a href='<?php echo base_url('minha-conta');?>'>Minha Conta</a><small>ou</small><a href="javascript:logout();">Logout</a></span></li>
                             <?php endif;?>
                         </ul>
                     </div>
@@ -342,7 +367,7 @@ if(empty($url)):
             <div class="container">
 
                 <a class="navbar-brand" href="<?php echo base_url('');?>">
-                  <img src="<?php echo base_url('web/imagens/'.$config['LOGOMARCA']);?>">
+                    <img src="<?php echo base_url('web/imagens/'.$config['LOGOMARCA']);?>">
                 </a>
 
                 <div class="navTop-middle">
@@ -353,13 +378,13 @@ if(empty($url)):
                             <?php
                             foreach ($leiloes_limit as $value){
                                 if(isset($_SESSION['comitente_set']) and $_SESSION['comitente_set'] == $value['id']):
-                            ?>
-                            <option value="<?php echo $value['id'];?>" selected="selected"><?php echo $value['nome'];?></option>
+                                    ?>
+                                    <option value="<?php echo $value['id'];?>" selected="selected"><?php echo $value['nome'];?></option>
 
-                             <?php else: ?>
+                                <?php else: ?>
                                     <option value="<?php echo $value['id'];?>"><?php echo $value['nome'];?></option>
 
-                            <?php endif; }?>
+                                <?php endif; }?>
                         </select>
                     </div>
                     <div class="searchBox">
@@ -425,7 +450,7 @@ if(empty($url)):
                             <a href="mailto:atendimento@bolsadeleiloes.com.br" class="nav-link">Fale Conosco</a>
                         </li>
                         <li class="nav-item">
-                                <a href="<?php echo base_url('como-funciona');?>"  class="nav-link">Como Funciona</a>
+                            <a href="<?php echo base_url('como-funciona');?>"  class="nav-link">Como Funciona</a>
                         </li>
 
 

@@ -1329,53 +1329,57 @@ function iniciarcronometroauditorio(variavel,id) {
 
 function atualizar_lote(metodo,lote,setTime) {
 
+    $.ajax({
+        url: DIR+'AjaxDefault/verificar_cronometro',
+        data: {lote:lote},
+        type: 'POST',
+        beforeSend: function () {
+        },
+        error: function (res) {
+
+        },
+        success: function (data) {
 
 
-
-        $.ajax({
-            url: DIR+'AjaxDefault/verificar_cronometro',
-            data: {lote:lote},
-            type: 'POST',
-            beforeSend: function () {
-            },
-            error: function (res) {
-
-            },
-            success: function (data) {
+            var duce =  jQuery.parseJSON(data);
 
 
-                var duce =  jQuery.parseJSON(data);
-
-
-                if(duce.cronometro && duce.cronometro !== 1574002){
-                    iniciarcronometro(duce.cronometro);
-                }
-                if(duce.cronometro == 1574002) {
+            if(duce.cronometro && duce.cronometro !== 1574002){
+                iniciarcronometro(duce.cronometro);
+            }
+            if(duce.cronometro == 1574002) {
                 $("#hoverdrop").css('display','none');
                 $("#hoverdrop2").html('<b id="textescrits">Aguardando Lotes Anteriores Encerrarem</b>');
+                $("#blocksdisplays").css("display","none");
 
-                }else{
-                    $("#hoverdrop").css('display','block');
-                    $("#textescrits").remove();
+                var datas = new Date();
 
-                }
-                    if(duce.lance_atual){
-                    $("#lance_atual").text(duce.lance_atual);
-                }
+                datas.setSeconds(datas.getSeconds() + 63);
+                iniciarcronometro(datas);
 
-                if(duce.data_lance){
-                    $("#data_lance").text(duce.data_lance);
-                }
 
-                if(duce.nickname){
-                    $("#nickname").text(duce.nickname);
-                }
+            }else{
+                $("#hoverdrop").css('display','block');
+                $("#textescrits").remove();
 
             }
+            if(duce.lance_atual){
+                $("#lance_atual").text(duce.lance_atual);
+            }
+
+            if(duce.data_lance){
+                $("#data_lance").text(duce.data_lance);
+            }
+
+            if(duce.nickname){
+                $("#nickname").text(duce.nickname);
+            }
+
+        }
 
 
 
-        });
+    });
 
 
 
