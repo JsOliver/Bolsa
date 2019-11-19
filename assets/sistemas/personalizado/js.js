@@ -1512,67 +1512,70 @@ function checktimeauditorio(lote){
 }
 
 function dar_lance(lote) {
+    if(contagem > '000001') {
 
     var form = $('#lancevalor').serialize();
 
-    $.ajax({
-        url: DIR+'AjaxDefault/dar_lance',
-        data: form,
-        type: 'POST',
-        beforeSend: function () {
-        },
-        error: function (res) {
+        $.ajax({
+            url: DIR + 'AjaxDefault/dar_lance',
+            data: form,
+            type: 'POST',
+            beforeSend: function () {
+            },
+            error: function (res) {
 
-        },
-        success: function (data) {
-            $("#lancevalues").val('');
-            atualizar_lote(0,lote);
-
-            var duce =  jQuery.parseJSON(data);
-
-            if(duce.sucesso === 1){
+            },
+            success: function (data) {
                 $("#lancevalues").val('');
-            }else{
+                atualizar_lote(0, lote);
 
-                if(duce.mensagem === 'E necessario estar Logado'){
+                var duce = jQuery.parseJSON(data);
 
-                    $("#login").modal('show');
+                if (duce.sucesso === 1) {
+                    $("#lancevalues").val('');
+                } else {
+
+                    if (duce.mensagem === 'E necessario estar Logado') {
+
+                        $("#login").modal('show');
 
 
-                }else{
+                    } else {
 
-                    if(duce.mensagem === 'Usuario não validado, por favor envie seus documentos'){
-                        swal({
-                            title: "Atenção",
-                            text: duce.mensagem,
-                            icon: "warning",
-                            timer: 2000,
-                            showCancelButton: false,
-                            showConfirmButton: false
-                        });
-                        var timer = setInterval(function() {  window.location.href=DIR+"/minha-conta?enviar_docs=true"; }, 4000);
+                        if (duce.mensagem === 'Usuario não validado, por favor envie seus documentos') {
+                            swal({
+                                title: "Atenção",
+                                text: duce.mensagem,
+                                icon: "warning",
+                                timer: 2000,
+                                showCancelButton: false,
+                                showConfirmButton: false
+                            });
+                            var timer = setInterval(function () {
+                                window.location.href = DIR + "/minha-conta?enviar_docs=true";
+                            }, 4000);
 
-                    }else{
-                        swal({
-                            title: "Atenção",
-                            text: duce.mensagem,
-                            icon: "warning",
-                            timer: 2000,
-                            showCancelButton: false,
-                            showConfirmButton: false
-                        });
+                        } else {
+                            swal({
+                                title: "Atenção",
+                                text: duce.mensagem,
+                                icon: "warning",
+                                timer: 2000,
+                                showCancelButton: false,
+                                showConfirmButton: false
+                            });
+                        }
+
+
                     }
-
 
                 }
 
+
             }
 
-
-        }
-
-    });
-
+        });
+    }
 }
 
 function dar_lanceauditorio(lote) {

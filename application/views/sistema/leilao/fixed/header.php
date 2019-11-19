@@ -118,6 +118,11 @@
 
 
             function checktime(){
+
+                if(contagem > '000028'){
+                    atualizar_lote(0,<?php echo $lote['id']?>);
+                }
+
                 if(contagem <= '000010'){
                     $("#clock").css('color','red');
                 }else{
@@ -138,6 +143,9 @@
 
                     atualizar_lote(0,<?php echo $lote['id']?>);
 
+
+                    timeout = setTimeout(function () {
+                        timeout = false;
                     if(contagem <= '000000') {
 
                         $("#blocksdisplays").css("display","block");
@@ -260,7 +268,7 @@
 
 
                     }
-
+                    }, 2000);
                 }else{
 
 
