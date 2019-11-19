@@ -25,10 +25,13 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/sistemas/leilao/');?>css/default.css" id="option_color">
 
     <link rel="shortcut icon" href="<?php echo base_url('web/imagens/'.$config['FAVICON']);?>" />
+    <?php if(isset($page) and $page == 'lote' and $lote['stats'] == 0):?>
+
     <script>
         var datadoserver = '<?php echo !empty($lote['data_acrescimo']) ? date('Y-m-d H:i:s',strtotime($lote['data_acrescimo'].' + 1 hour')) : date('Y-m-d H:i:s',strtotime($lote['data_fim'].' + 1 hour'));?>';
         var idlote = '<?php echo $lote['id'];?>';
     </script>
+    <?php endif; ?>
 
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -115,7 +118,7 @@
 
 
             function checktime(){
-                if(contagem <= '0010'){
+                if(contagem <= '000010'){
                     $("#clock").css('color','red');
                 }else{
                     $("#clock").css('color','black');
@@ -123,19 +126,19 @@
 
                 }
 
-                if(contagem === '0002') {
+                if(contagem <= '000003') {
                     $("#blocksdisplays").css("display","block");
                     $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Aguarde...");
                     $('input').val('');
                 }
 
-                if(contagem === '0000'){
+                if(contagem <= '000000'){
 
                     $("#lancevalues").val('');
 
                     atualizar_lote(0,<?php echo $lote['id']?>);
 
-                    if(contagem === '0000') {
+                    if(contagem <= '000000') {
 
                         $("#blocksdisplays").css("display","block");
                         $('input').val('');
@@ -147,7 +150,9 @@
                             data: {lote: <?php echo $lote['id']?>,leiloes:<?php echo $lote['leiloes']?>},
                             type: 'POST',
                             beforeSend: function () {
-
+                                $("#blocksdisplays").css("display","block");
+                                $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Aguarde...");
+                                $('input').val('');
                                 timeout = setTimeout(function () { // quando o timer for disparado...
                                     timeout = false; // ... apagamos sua referência ...
                                     $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Homologando");
@@ -196,7 +201,14 @@
                                             url: DIR+'AjaxDefault/proximo_lote',
                                             data: {lote:<?php echo $lote['id']?>},
                                             type: 'POST',
+                                            beforeSend: function () {
+                                                $("#blocksdisplays").css("display","block");
+                                                $("#clock").html("<img src='<?php echo base_url('web/clock.gif')?>' style='width:40px;'> Aguarde...");
+                                                $('input').val('');
+
+                                            },
                                             error: function (res) {
+
                                                 $("#clock").html("<a href='<?php echo base_url('lote-leilao/'.($lote['id'] + 1));?>'><i class='fa fa-2x fa-check-circle text-success'></i> Proximo Lote</a>");
                                                 checktime();
                                             },
@@ -242,6 +254,8 @@
 
                             }
                         });
+
+
 
 
 

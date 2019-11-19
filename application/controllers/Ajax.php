@@ -240,7 +240,7 @@ class Ajax extends CI_Controller
 </table>';
 
 
-          //  base_url('minha-conta/lotes-arrematados');
+            //  base_url('minha-conta/lotes-arrematados');
             $array['corpo'] = $corpo;
             $array['para'] = $usuario['email'];
             $array['npara'] = 'TERMO DE ARREMATAÇÃO';
@@ -270,17 +270,17 @@ class Ajax extends CI_Controller
                 $get = $this->db->get();
                 $count = $get->num_rows();
                 if($count > 0):
-                $lote = $get->result_array()[0];
+                    $lote = $get->result_array()[0];
 
 
-                $this->db->from('usuarios');
-                $this->db->where('id', $lote['arrematante']);
-                $get = $this->db->get();
-                $usuario = $get->result_array()[0];
+                    $this->db->from('usuarios');
+                    $this->db->where('id', $lote['arrematante']);
+                    $get = $this->db->get();
+                    $usuario = $get->result_array()[0];
                     $email .= $usuario['email'].',';
                 endif;
             }
-                $corpo = 'Olá Arrematante! <br><br><br>
+            $corpo = 'Olá Arrematante! <br><br><br>
 
 Abaixo link para termo de Arrematação.<br><br><br>
 
@@ -291,16 +291,16 @@ Link : <a href="' . base_url('minha-conta/lotes-arrematados') . '">' . base_url(
 Att,
 <br><br>
 Equipe Bolsa de Leilões';
-                $array['corpo'] = $corpo;
-                $array['para'] = $email;
-                $array['npara'] = 'TERMO DE ARREMATAÇÃO';
-                $array['assunto'] = 'TERMO DE ARREMATAÇÃO - BOLSA DE LEILÕES';
+            $array['corpo'] = $corpo;
+            $array['para'] = $email;
+            $array['npara'] = 'TERMO DE ARREMATAÇÃO';
+            $array['assunto'] = 'TERMO DE ARREMATAÇÃO - BOLSA DE LEILÕES';
 
-                if ($this->ModelDefault->sendMail($array)):
-                    echo 11;
-                else:
-                    echo 'Erro ao enviar TERMO';
-                endif;
+            if ($this->ModelDefault->sendMail($array)):
+                echo 11;
+            else:
+                echo 'Erro ao enviar TERMO';
+            endif;
 
         endif;
 
@@ -442,17 +442,17 @@ Equipe Bolsa de Leilões';
 
 
 
-            $arr['validado'] = $_POST['validado'];
-            $this->db->where('id', $_POST['item']);
-            $this->db->update($_POST['table'], $arr);
+                $arr['validado'] = $_POST['validado'];
+                $this->db->where('id', $_POST['item']);
+                $this->db->update($_POST['table'], $arr);
 
-            $arpns['visualizado'] = 1;
-            $arpns['respondido'] = 1;
-            $this->db->where('cadastro',$_POST['item']);
-            $this->db->update('documentos',$arpns);
+                $arpns['visualizado'] = 1;
+                $arpns['respondido'] = 1;
+                $this->db->where('cadastro',$_POST['item']);
+                $this->db->update('documentos',$arpns);
 
-            echo 11;
-        endif;
+                echo 11;
+            endif;
         endif;
 
     }
@@ -966,9 +966,9 @@ Equipe Bolsa de Leilões';
 
             echo 11;
 
-            else:
+        else:
             echo 'E necessario estar logado como empresa!';
 
         endif;
-        }
+    }
 }

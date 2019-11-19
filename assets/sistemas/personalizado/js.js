@@ -1310,7 +1310,7 @@ function iniciarcronometro(variavel) {
         $(this).html(event.strftime('%H:%M:%S'));
 
 
-        pegar_segundos(event.strftime('%M%S'));
+        pegar_segundos(event.strftime('%H%M%S'));
     });
 }
 
@@ -1385,7 +1385,7 @@ function atualizar_lote(metodo,lote,setTime) {
 
 
 
-    if(contagem < '0059'){
+    if(contagem < '000059'){
 
 
 

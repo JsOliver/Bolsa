@@ -217,7 +217,7 @@ class AjaxDefault extends CI_Controller
                 if($lote['stats'] == 0):
 
                     if(empty($lote['data_acrescimo'])):
-                        if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo']))):
+                        if(date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_acrescimo'])) and date('Y-m-d H:i:s') >= date('Y-m-d H:i:s',strtotime($lote['data_fim']))):
 
                             if($countanterior == 0):
                                 $dadosupsnx['data_acrescimo'] = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " + 30 seconds"));

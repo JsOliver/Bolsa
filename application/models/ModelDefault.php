@@ -32,7 +32,7 @@ class ModelDefault extends CI_Model
         $get = $this->db->get();
         $count = $get->num_rows();
         if($count == 0 and $countodos > 0):
-        $arr['finalizado'] = 1;
+            $arr['finalizado'] = 1;
             $this->db->where('id',$leilao);
             $this->db->update('leiloes',$arr);
 
@@ -71,7 +71,7 @@ class ModelDefault extends CI_Model
             $lotes = $get->result_array();
 
 
-        $i = 1;
+            $i = 1;
             foreach ($lotes as $value){
 
 
@@ -98,8 +98,8 @@ class ModelDefault extends CI_Model
 
                 if($diferenca <= (40 * $i)):
 
-                $this->db->where('id',$value['id']);
-                $this->db->update('lotes',$db);
+                    $this->db->where('id',$value['id']);
+                    $this->db->update('lotes',$db);
 
                 endif;
 

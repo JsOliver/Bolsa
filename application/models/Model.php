@@ -94,25 +94,25 @@ endif;
             $this->db->where('status',1);
             $get = $this->db->get();
             $lote = $get->result_array()[0];
-/*
+            /*
 
-            if(empty($lote['data_acrescimo'])):
-                if(date('Y-m-d H:i') > date('Y-m-d H:i',strtotime($lote['data_fim'])) and isset($post['data_fim'])):
+                        if(empty($lote['data_acrescimo'])):
+                            if(date('Y-m-d H:i') > date('Y-m-d H:i',strtotime($lote['data_fim'])) and isset($post['data_fim'])):
 
-                    $post['data_fim'] = str_replace(' ','T',date("Y-m-d H:i", strtotime(date('Y-m-d H:i:s') . " + 5 minutes")));
-                    $post['data_acrescimo'] = '';
+                                $post['data_fim'] = str_replace(' ','T',date("Y-m-d H:i", strtotime(date('Y-m-d H:i:s') . " + 5 minutes")));
+                                $post['data_acrescimo'] = '';
 
-                endif;
-                else:
-                    if(date('Y-m-d H:i') > date('Y-m-d H:i',strtotime($lote['data_acrescimo'])) and isset($post['data_acrescimo'])):
+                            endif;
+                            else:
+                                if(date('Y-m-d H:i') > date('Y-m-d H:i',strtotime($lote['data_acrescimo'])) and isset($post['data_acrescimo'])):
 
-                        $post['data_fim'] = str_replace(' ','T',date("Y-m-d H:i", strtotime(date('Y-m-d H:i:s') . " + 5 minutes")));
-                        $post['data_acrescimo'] = '';
+                                    $post['data_fim'] = str_replace(' ','T',date("Y-m-d H:i", strtotime(date('Y-m-d H:i:s') . " + 5 minutes")));
+                                    $post['data_acrescimo'] = '';
 
-                    endif;
-            endif;
+                                endif;
+                        endif;
 
-*/
+            */
 
         endif;
 
@@ -254,7 +254,7 @@ endif;
 
         $explodeCond3 = explode(',', $menu_admin[0]['where_empresa']);
         if (!empty($menu_admin[0]['where_empresa']) and isset($_SESSION['ID_EMPRESA'])):
-            $this->db->where($explodeCond3[0], $_SESSION['ID_EMPRESA']);
+            //  $this->db->where($explodeCond3[0], $_SESSION['ID_EMPRESA']);
         endif;
         if(isset($arr['keywordAdmin']) and !empty($arr['keywordAdmin'])):
 
@@ -273,6 +273,7 @@ endif;
 
                 $this->db->like('nome', $arr['keywordAdmin']);
                 $this->db->or_like('email', $arr['keywordAdmin']);
+                $this->db->or_like('id', $arr['keywordAdmin']);
                 $this->db->or_like('cpf', $arr['keywordAdmin']);
                 $this->db->or_like('cpf', $monta_cpf);
                 $this->db->or_like('telefone', $arr['keywordAdmin']);
@@ -284,11 +285,11 @@ endif;
         endif;
 
         $this->db->order_by('id', 'desc');
-        $this->db->limit(1200, 0);
         $get = $this->db->get();
         $count = $get->num_rows();
+        $result = $get->result_array();
+
         if ($count > 0):
-            $result = $get->result_array();
 
             foreach ($result as $value) {
 
@@ -302,6 +303,10 @@ endif;
 
                 endif;
             }
+
+        else:
+
+
         endif;
     }
 
@@ -951,7 +956,7 @@ endif;
 
             case '|user_credentials|':
                 if(isset($_POST['tabela'])):
-                $varReturn = '<h6 id="brnaltera"><a class="btn btn-info" href="javascript:alterar_pass();" style="margin-top: 23px;margin-left: 15px;">ALTERAR SENHA</a></h6>';
+                    $varReturn = '<h6 id="brnaltera"><a class="btn btn-info" href="javascript:alterar_pass();" style="margin-top: 23px;margin-left: 15px;">ALTERAR SENHA</a></h6>';
                 else:
                     $varReturn = '';
                 endif;
@@ -1302,17 +1307,17 @@ endif;
         endif;
         if ($campo == 'acoes'):
             $valor = '';
-        if($menu_admin['tabela'] == 'leiloes'):
-            if($outros_values['finalizado'] == 1):
-            $valor .= '<a href="'.base_url('painel/relatorio/?id='.$outros_values['id']).'" target="_blank" class="btn btn-info"><i class="fa fa-bars"></i> RELATORIOS</a><div class="clearfix"></div><br>';
-            endif;
-            $valor .= '<a href="javascript:enviartermos('.$outros_values['id'].',\'\');" class="btn btn-info"><i class="fa fa-bars"></i> ENVIAR EMAILS DE ARREMATE</a><div class="clearfix"></div><br>';
+            if($menu_admin['tabela'] == 'leiloes'):
+                if($outros_values['finalizado'] == 1):
+                    $valor .= '<a href="'.base_url('painel/relatorio/?id='.$outros_values['id']).'" target="_blank" class="btn btn-info"><i class="fa fa-bars"></i> RELATORIOS</a><div class="clearfix"></div><br>';
+                endif;
+                $valor .= '<a href="javascript:enviartermos('.$outros_values['id'].',\'\');" class="btn btn-info"><i class="fa fa-bars"></i> ENVIAR EMAILS DE ARREMATE</a><div class="clearfix"></div><br>';
 
-            $this->db->select('id');
-            $this->db->from('lotes');
-            $this->db->where('leiloes',$outros_values['id']);
-            $get = $this->db->get();
-            $count = $get->num_rows();
+                $this->db->select('id');
+                $this->db->from('lotes');
+                $this->db->where('leiloes',$outros_values['id']);
+                $get = $this->db->get();
+                $count = $get->num_rows();
 
 
 
@@ -1320,7 +1325,7 @@ endif;
 
 
 
-            $valor .= '<div class="modal fade" id="modalimporta'.$outros_values['id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                $valor .= '<div class="modal fade" id="modalimporta'.$outros_values['id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1355,11 +1360,11 @@ endif;
 
 
 
-            $valor .= '<a href="javascript:$(\'#modalimportadesc'.$outros_values['id'].'\').modal(\'show\');" class="btn btn-primarysim "><i class="fa fa-bars"></i> IMPORTAR LOTES DESCRIÇÃO</a><div class="clearfix"></div><br>';
+                $valor .= '<a href="javascript:$(\'#modalimportadesc'.$outros_values['id'].'\').modal(\'show\');" class="btn btn-primarysim "><i class="fa fa-bars"></i> IMPORTAR LOTES DESCRIÇÃO</a><div class="clearfix"></div><br>';
 
 
 
-            $valor .= '<div class="modal fade" id="modalimportadesc'.$outros_values['id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                $valor .= '<div class="modal fade" id="modalimportadesc'.$outros_values['id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1392,7 +1397,7 @@ endif;
 
 
 
-        endif;
+            endif;
             if ($response > 0):
 
 
@@ -1421,58 +1426,58 @@ endif;
             if($menu_admin['tabela'] == 'documentos'):
                 $valor .= '<a href="javascript:editar_item(\'modal\',\'' . $tabela . '\',' . $outros_values['id'] . ');" class="btn btn-primary" style="margin-bottom: 10px;"><i class="fas fa-eye"></i> Visualizar Documentos</a> &nbsp;&nbsp;&nbsp;';
 
-                else:
-            if($menu_admin['tabela'] == 'usuarios'):
+            else:
+                if($menu_admin['tabela'] == 'usuarios'):
 
 
-                $valor .= '<div style="float: left;width: 100%;margin-bottom: 8px!important;">';
-                $valor .= '<label>Situação: </label>&nbsp;&nbsp;&nbsp;';
-                $valor .= '<select class="form-control" onchange="chagevalidado(this,' . $outros_values['id'] . ',\'' . $menu_admin['tabela'] . '\');">';
+                    $valor .= '<div style="float: left;width: 100%;margin-bottom: 8px!important;">';
+                    $valor .= '<label>Situação: </label>&nbsp;&nbsp;&nbsp;';
+                    $valor .= '<select class="form-control" onchange="chagevalidado(this,' . $outros_values['id'] . ',\'' . $menu_admin['tabela'] . '\');">';
 
-                if ($outros_values['validado'] == 1):
-                    $valor .= '<option value="1">Habilitado</option>';
-                    $valor .= '<option value="0">Desabilitado</option>';
-                else:
+                    if ($outros_values['validado'] == 1):
+                        $valor .= '<option value="1">Habilitado</option>';
+                        $valor .= '<option value="0">Desabilitado</option>';
+                    else:
 
-                    $valor .= '<option value="0">Desabilitado</option>';
-                    $valor .= '<option value="1">Habilitado</option>';
+                        $valor .= '<option value="0">Desabilitado</option>';
+                        $valor .= '<option value="1">Habilitado</option>';
 
-                endif;
-
-
-                $valor .= '</select>';
-                $valor .= '</div>';
-                $valor .= '<div class="clearfix"></div>';
-                $valor .= '';
-
-            endif;
-            if($menu_admin['tabela'] <> 'cotacoes'):
-                $valor .= '<a href="javascript:editar_item(\'modal\',\'' . $tabela . '\',' . $outros_values['id'] . ');" class="btn btn-primary" style="margin-bottom: 10px;"><i class="fas fa-edit"></i> Editar</a> &nbsp;&nbsp;&nbsp;';
-            endif;
-            if($menu_admin['tabela'] <> 'config'):
-
-                $valor .= '<a href="javascript:delecsts(\'' . $tabela . '\',' . $outros_values['id'] . ',0);" class="btn btn-danger" style="margin-bottom: 10px;"><i class="fas fa-trash"></i> Excluir</a>';
-            endif;
-            if($menu_admin['tabela'] == 'lotes'):
+                    endif;
 
 
-                if($outros_values['star'] == 0):
-
-                    $valor .= '<br><span id="star'.$outros_values['id'].'"><a href="javascript:starlote(\''.$outros_values['id'].'\',\'1\');" class="btn btn-default" style="margin-top: 8px;"><i class="far fa-star"></i>Destaque</a></span>';
-
-                else:
-
-                    $valor .= '<br><span id="star'.$outros_values['id'].'"><a href="javascript:starlote(\''.$outros_values['id'].'\',\'0\');" class="btn btn-default btn-warning" style="margin-top: 8px;"><i class="fas fa-star text-warning"></i> Remover Destaque</a></span>';
+                    $valor .= '</select>';
+                    $valor .= '</div>';
+                    $valor .= '<div class="clearfix"></div>';
+                    $valor .= '';
 
                 endif;
+                if($menu_admin['tabela'] <> 'cotacoes'):
+                    $valor .= '<a href="javascript:editar_item(\'modal\',\'' . $tabela . '\',' . $outros_values['id'] . ');" class="btn btn-primary" style="margin-bottom: 10px;"><i class="fas fa-edit"></i> Editar</a> &nbsp;&nbsp;&nbsp;';
+                endif;
+                if($menu_admin['tabela'] <> 'config'):
+
+                    $valor .= '<a href="javascript:delecsts(\'' . $tabela . '\',' . $outros_values['id'] . ',0);" class="btn btn-danger" style="margin-bottom: 10px;"><i class="fas fa-trash"></i> Excluir</a>';
+                endif;
+                if($menu_admin['tabela'] == 'lotes'):
+
+
+                    if($outros_values['star'] == 0):
+
+                        $valor .= '<br><span id="star'.$outros_values['id'].'"><a href="javascript:starlote(\''.$outros_values['id'].'\',\'1\');" class="btn btn-default" style="margin-top: 8px;"><i class="far fa-star"></i>Destaque</a></span>';
+
+                    else:
+
+                        $valor .= '<br><span id="star'.$outros_values['id'].'"><a href="javascript:starlote(\''.$outros_values['id'].'\',\'0\');" class="btn btn-default btn-warning" style="margin-top: 8px;"><i class="fas fa-star text-warning"></i> Remover Destaque</a></span>';
+
+                    endif;
 
 
                     if($outros_values['stats'] == 4 or $outros_values['stats'] == 3):
-                        
-                $valor .= '<br><br><a href="javascript:enviartermos('.$outros_values['leiloes'].','.$outros_values['id'].');" class="btn" style="border-color: #d3d3d3;margin-bottom: 10px;">Enviar Termo de Arrematação</a> &nbsp;&nbsp;&nbsp; <a href="'.base_url('termo/'.$outros_values['id']).'" target="_blank" class="btn" style="border-color: #d3d3d3;margin-bottom: 10px;">Visualizar Termo de Arrematação</a>';
-                 
+
+                        $valor .= '<br><br><a href="javascript:enviartermos('.$outros_values['leiloes'].','.$outros_values['id'].');" class="btn" style="border-color: #d3d3d3;margin-bottom: 10px;">Enviar Termo de Arrematação</a> &nbsp;&nbsp;&nbsp; <a href="'.base_url('termo/'.$outros_values['id']).'" target="_blank" class="btn" style="border-color: #d3d3d3;margin-bottom: 10px;">Visualizar Termo de Arrematação</a>';
+
                     endif;
-            endif;
+                endif;
             endif;
 
             if($menu_admin['tabela'] == 'usuarios'):
@@ -1481,26 +1486,29 @@ endif;
                 $get = $this->db->get();
                 $count = $get->num_rows();
 
-                $documentos = @$get->result_array()[0];
+                if($count > 0):
+                    $documentos = @$get->result_array()[0];
 
                     $valor .= '<br>';
 
 
-                    if($documentos['CPF']):
-                    $valor .= '<a href="'.base_url('web/imagens/').@$documentos['CPF'].'" target="_blank" class="btn btn-info">VISUALIZAR CPF</a>&nbsp;';
+
+                    if(!empty($documentos['CPF'])):
+                        $valor .= '<a href="'.base_url('web/imagens/').@$documentos['CPF'].'" target="_blank" class="btn btn-info">VISUALIZAR CPF</a>&nbsp;';
                     endif;
 
-                    if($documentos['RG']):
-                    $valor .= '<a href="'.base_url('web/imagens/').@$documentos['RG'].'" target="_blank" class="btn btn-info">VISUALIZAR RG</a>&nbsp;';
+                    if(!empty($documentos['RG'])):
+                        $valor .= '<a href="'.base_url('web/imagens/').@$documentos['RG'].'" target="_blank" class="btn btn-info">VISUALIZAR RG</a>&nbsp;';
                     endif;
 
-                    if($documentos['COMPROVANTE_ENDERECO']):
-                    $valor .= '<a href="'.base_url('web/imagens/').@$documentos['COMPROVANTE_ENDERECO'].'" target="_blank" class="btn btn-info">VISUALIZAR CR</a>';
+                    if(!empty($documentos['COMPROVANTE_ENDERECO'])):
+                        $valor .= '<a href="'.base_url('web/imagens/').@$documentos['COMPROVANTE_ENDERECO'].'" target="_blank" class="btn btn-info">VISUALIZAR CR</a>';
                     endif;
 
+                endif;
             endif;
 
-            endif;
+        endif;
 
         if ($campo == 'posicao'):
 
@@ -1531,50 +1539,50 @@ endif;
         if ($campo == 'lance_atual'):
             if($valor == 0 or empty($valor)):
                 $valor = 'Sem Lance';
-                else:
+            else:
                 $valor = 'R$ '.number_format($valor,2,'.',',');
             endif;
-            endif;
+        endif;
 
-            if ($campo == 'arrematante'):
+        if ($campo == 'arrematante'):
             if($valor == 0 or empty($valor)):
                 $valor = 'Sem Arrematante';
-                else:
-                    $this->db->from('usuarios');
-                    $this->db->where('id', $valor);
-                    $get = $this->db->get();
-                    $response = $get->result_array()[0];
+            else:
+                $this->db->from('usuarios');
+                $this->db->where('id', $valor);
+                $get = $this->db->get();
+                $response = $get->result_array()[0];
                 $valor = $response['user'];
             endif;
-            endif;
+        endif;
 
 
-            if ($campo == 'infos'):
+        if ($campo == 'infos'):
 
-                $valor = '<b>Inicio:</b> '.date('d/m/Y H:i',strtotime($outros_values['data_ini'])).'<br>';
-                $valor .= '<b>Fim:</b> '.date('d/m/Y H:i',strtotime($outros_values['data_fim'])).'<br>';
-                $valor .= '<b>Lance Minimo:</b> R$ '.$outros_values['lance_min'].'<br>';
+            $valor = '<b>Inicio:</b> '.date('d/m/Y H:i',strtotime($outros_values['data_ini'])).'<br>';
+            $valor .= '<b>Fim:</b> '.date('d/m/Y H:i',strtotime($outros_values['data_fim'])).'<br>';
+            $valor .= '<b>Lance Minimo:</b> R$ '.$outros_values['lance_min'].'<br>';
 
-            endif;
+        endif;
         if ($campo == 'stats'):
 
 
             if($valor == 0):
-            $valor = '<span class="btn btn-success">Aberto</span>';
+                $valor = '<span class="btn btn-success">Aberto</span>';
             elseif($valor == 1):
-            $valor = '<span class="btn btn-warning">Em Loteamento</span>';
+                $valor = '<span class="btn btn-warning">Em Loteamento</span>';
             elseif($valor == 2):
-            $valor = '<span class="btn btn-default">Aguardando para Abrir</span>';
+                $valor = '<span class="btn btn-default">Aguardando para Abrir</span>';
             elseif($valor == 3):
-            $valor = '<span class="btn btn-danger">Arrematado</span>';
+                $valor = '<span class="btn btn-danger">Arrematado</span>';
             elseif($valor == 4):
-            $valor = '<span class="btn btn-warning">Em Condicional</span>';
+                $valor = '<span class="btn btn-warning">Em Condicional</span>';
             elseif($valor == 5):
-            $valor = '<span class="btn btn-danger" style="background: #4b0010;">Finalizado</span>';
+                $valor = '<span class="btn btn-danger" style="background: #4b0010;">Finalizado</span>';
             elseif($valor == 5):
-            $valor = '<span class="btn btn-primary">Venda Direta</span>';
+                $valor = '<span class="btn btn-primary">Venda Direta</span>';
             else:
-            $valor = '<span class="btn btn-danger">Indefinido</span>';
+                $valor = '<span class="btn btn-danger">Indefinido</span>';
             endif;
         endif;
 
@@ -1589,9 +1597,9 @@ endif;
 
         if ($campo == 'visualizado'):
             $valor = ($valor == 0)? 'Não' : 'Sim';
-        $arpns['visualizado'] = 1;
-        $this->db->where('id',$outros_values['id']);
-        $this->db->update('documentos',$arpns);
+            $arpns['visualizado'] = 1;
+            $this->db->where('id',$outros_values['id']);
+            $this->db->update('documentos',$arpns);
 
         endif;
 
@@ -1895,7 +1903,7 @@ endif;
 
         if ($fields == 'sexo'):
 
-        $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
+            $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
                         <label for="recipient-name" class="control-label">' . $this->tabela_filtro(trim($fields)) . ':</label>
                         <input type="text" class="form-control ' . $fields . '" name="' . $fields . '" id="' . $fields . '" ' . $value . '>
                     </div>
@@ -1934,22 +1942,22 @@ endif;
 
 
 
-        if(!empty($valuetxt)){
-            $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
+            if(!empty($valuetxt)){
+                $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
                         <label for="recipient-name" class="control-label">' . $this->tabela_filtro(trim($fields)) . ':</label>
                         <input type="file" onchange="enviarimage(\''.$fields.'\');" class="form-control ' . $fields . '" name="' . $fields . '" id="' . $fields . '" >
                         
                                 <div class=\'preview\'> </div>
                    ';
-            $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 45%;margin-right: 5px;margin-top: 2px;">VISUALIZAR</a> <a class="btn btn-danger" href="javascript:remover_imagem('.$id.',\''.$menu_adm['tabela'].'\',\''.$fields.'\');"  style="width: 45%;margin-top: 2px;">Remover</a> </div>';
-        }else{
-            $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
+                $tfields .= '<a class="btn btn-primary" href="'.base_url('web/imagens/'.$valuetxt).'" target="_blank" style="width: 45%;margin-right: 5px;margin-top: 2px;">VISUALIZAR</a> <a class="btn btn-danger" href="javascript:remover_imagem('.$id.',\''.$menu_adm['tabela'].'\',\''.$fields.'\');"  style="width: 45%;margin-top: 2px;">Remover</a> </div>';
+            }else{
+                $tfields = '<div class="form-group" style="float: left;width: ' . $wid . ';margin-left: 20px">
                         <label for="recipient-name" class="control-label">' . $this->tabela_filtro(trim($fields)) . ':</label>
                         <input type="file" onchange="enviarimage(\''.$fields.'\');" class="form-control ' . $fields . '" name="' . $fields . '" id="' . $fields . '" >
                         
                                 <div class=\'preview\'> </div>
                     </div>';
-        }
+            }
 
 
         endif;
@@ -2158,21 +2166,21 @@ endif;
                     $options .= '<option value="3">Arrematado</option>';
                     $options .= '<option value="5">Finalizado</option>';
                     $options .= '<option value="4">Em Condicional</option>';
-                    elseif($result[$fields] == 3):
-                        $options = '<option value="0">Aberto</option>';
-                        $options .= '<option value="3" selected>Arrematado</option>';
-                        $options .= '<option value="5">Finalizado</option>';
-                        $options .= '<option value="4">Em Condicional</option>';
-                        elseif($result[$fields] == 5):
-                        $options = '<option value="0">Aberto</option>';
-                        $options .= '<option value="3">Arrematado</option>';
-                        $options .= '<option value="5" selected>Finalizado</option>';
-                        $options .= '<option value="4">Em Condicional</option>';
-                        elseif($result[$fields] == 4):
-                        $options = '<option value="0">Aberto</option>';
-                        $options .= '<option value="3">Arrematado</option>';
-                        $options .= '<option value="5">Finalizado</option>';
-                        $options .= '<option value="4" selected>Em Condicional</option>';
+                elseif($result[$fields] == 3):
+                    $options = '<option value="0">Aberto</option>';
+                    $options .= '<option value="3" selected>Arrematado</option>';
+                    $options .= '<option value="5">Finalizado</option>';
+                    $options .= '<option value="4">Em Condicional</option>';
+                elseif($result[$fields] == 5):
+                    $options = '<option value="0">Aberto</option>';
+                    $options .= '<option value="3">Arrematado</option>';
+                    $options .= '<option value="5" selected>Finalizado</option>';
+                    $options .= '<option value="4">Em Condicional</option>';
+                elseif($result[$fields] == 4):
+                    $options = '<option value="0">Aberto</option>';
+                    $options .= '<option value="3">Arrematado</option>';
+                    $options .= '<option value="5">Finalizado</option>';
+                    $options .= '<option value="4" selected>Em Condicional</option>';
                 else:
                     $options = '<option value="0" selected>Aberto</option>';
                     $options .= '<option value="3">Arrematado</option>';
